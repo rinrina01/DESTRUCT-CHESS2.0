@@ -1,8 +1,9 @@
-import Controller.Gamebase;
+import Vue.Cli;
 
 public class Main {
     public static void main(String[] args) {
-        Gamebase gamebase = new Gamebase();
-        gamebase.start();
+
+        Cli myCLi = new Cli();
+        myCLi.chooseMode();
     }
 }
