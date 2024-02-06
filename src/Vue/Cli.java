@@ -4,47 +4,52 @@ import Controller.Gamebase;
 import java.util.Scanner;
 
 public class Cli {
-
-    // menu display
-    static public void menu() {
-        System.out.println("╔════════════════════════╗");
-        System.out.println("║         Menu           ║");
-        System.out.println("╠════════════════════════╣");
-        System.out.println("║ 1. Play                ║");
-        System.out.println("║ 2. Rule                ║");
-        System.out.println("║ 3. Quitter             ║");
-        System.out.println("╚════════════════════════╝");
+    static public void displayMenu() {
+        /**
+         * Display the menu
+         **/
+        System.out.println("╔════════════════════════╗\n" +
+                "║         Menu           ║\n" +
+                "╠════════════════════════╣\n" +
+                "║ 1. Play                ║\n" +
+                "║ 2. Rules               ║\n" +
+                "║ 3. Leave               ║\n" +
+                "╚════════════════════════╝\n");
     }
 
-    static public void chooseMode() {
+    static public void openMenu(int openedTimes) {
+        /**
+         * Display menu and get player's input to play, open rules or leave game
+         **/
+        if (openedTimes > 20) {
+            System.out.println("You're too dumb to play the game, bye");
+            System.exit(0);
+        }
         Scanner sc = new Scanner(System.in);
-        menu();
+        displayMenu();
+
         try {
-            int userChooseMode = sc.nextInt();
-            if (userChooseMode == 1 || userChooseMode == 2 || userChooseMode == 3) {
-                switch (userChooseMode) {
+            int userInput = sc.nextInt();
+            if ((userInput == 1) || (userInput == 2) || (userInput == 3)) {
+                switch (userInput) {
                     case 1:
-                        Gamebase.initGame();
+                        Gamebase.initGame(); // Launch game
                         break;
                     case 2:
-                        Rule.backOrStart();
+                        Rule.openRules(openedTimes + 1); // Open rules menu
                         break;
                     case 3:
-                        System.out.println("Au revoir et merci d'avoir joué");
-                        sc.close();
-                        break;
-                    default:
-                        break;
+                        System.out.println("Bye! Thanks for playing!");
+                        System.exit(0); // Stop script
                 }
+                sc.close();
             } else {
-                System.out.println("nn");
-                chooseMode();
+                System.out.println("Please enter a number between 1 and 3");
+                openMenu(openedTimes + 1);
             }
-        } catch (Exception e) {
-            System.out.println("hihihahaha" + ' ' + e);
-            // return a menu
-            chooseMode();
+        } catch (Exception e) { // Player didn't enter an integer
+            System.out.println("Please enter a number between 1 and 3");
+            openMenu(openedTimes + 1);
         }
-
     }
 }
