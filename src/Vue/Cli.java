@@ -2,6 +2,8 @@ package Vue;
 
 import java.util.Scanner;
 
+import Controller.Gamebase;
+
 public class Cli {
 
     // menu display
@@ -21,19 +23,24 @@ public class Cli {
         twoMenu.menu();
         try {
             int userChooseMode = sc.nextInt();
-            switch (userChooseMode) {
-                case 1:
-                    // map
-                    break;
-                case 2:
-                    Rule.backOrStart();
-                    break;
-                case 3:
-                    System.out.println("Au revoir et merci d'avoir joué");
-                    sc.close();
-                    break;
-                default:
-                    break;
+            if (userChooseMode == 1 || userChooseMode == 2 || userChooseMode == 3) {
+                switch (userChooseMode) {
+                    case 1:
+                        Gamebase.start();
+                        break;
+                    case 2:
+                        Rule.backOrStart();
+                        break;
+                    case 3:
+                        System.out.println("Au revoir et merci d'avoir joué");
+                        sc.close();
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                System.out.println("nn");
+                chooseMode();
             }
         } catch (Exception e) {
             System.out.println("hihihahaha" + ' ' + e);
