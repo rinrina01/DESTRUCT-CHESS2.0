@@ -51,4 +51,20 @@ public class Map {
                 break;
         }
     }
+
+    @Override
+    public String toString() {
+        String displayed = "";
+        char[][] matrix = getMatrix();
+        displayed += "         ═════════════════════════════════════════\n";
+        for (int i = 0; i < matrix.length; i++) {
+            displayed += "Row:   " + i + ' ';
+            for (int j = 0; j < matrix[i].length; j++) {
+                displayed += "║   ";
+            }
+            displayed += "\n         ═════════════════════════════════════════\n";
+        }
+        displayed += "Column:    A   B   C   D   E   F   G   H   I   J\n";
+        return displayed;
+    }
 }

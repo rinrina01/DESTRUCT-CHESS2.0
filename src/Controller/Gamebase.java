@@ -7,21 +7,6 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Gamebase {
-    static public void start() {
-        Map mymap = new Map();
-        var createMap = mymap.getMatrix();
-        System.out.println("         ═══════════════════════════════════════════════════");
-        for (int i = 0; i < createMap.length; i++) {
-            System.out.print("Ligne: " + i + ' ');
-            for (int j = 0; j < createMap[i].length; j++) {
-                System.out.print("║    ");
-            }
-            System.out.println();
-            System.out.println("         ═══════════════════════════════════════════════════");
-        }
-        mymap.spawn(2);
-    }
-  
     final static Scanner scanner = new Scanner(System.in);
     static Player[] alivePlayers;
     static Map map;
@@ -35,7 +20,9 @@ public class Gamebase {
         alivePlayers = new Player[] {
                 new Player("player1", 6, 5, 0, 'p'),
                 new Player("player2", 5, 6, 0, 'q') };
-
+                
+        map = new Map();
+        System.out.println(map);
         map.spawn(2); // Spawns the players in the map
 
         // Index of the randomly chosen starting player

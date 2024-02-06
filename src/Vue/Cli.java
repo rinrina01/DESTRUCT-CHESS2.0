@@ -1,10 +1,7 @@
 package Vue;
 
 import Controller.Gamebase;
-
 import java.util.Scanner;
-
-import Controller.Gamebase;
 
 public class Cli {
 
@@ -21,14 +18,13 @@ public class Cli {
 
     static public void chooseMode() {
         Scanner sc = new Scanner(System.in);
-        Cli twoMenu = new Cli();
-        twoMenu.menu();
+        menu();
         try {
             int userChooseMode = sc.nextInt();
             if (userChooseMode == 1 || userChooseMode == 2 || userChooseMode == 3) {
                 switch (userChooseMode) {
                     case 1:
-                        Gamebase.start();
+                        Gamebase.initGame();
                         break;
                     case 2:
                         Rule.backOrStart();
