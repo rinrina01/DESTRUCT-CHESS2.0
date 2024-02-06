@@ -13,28 +13,28 @@ public class Rule {
                 "║         Rules                                     ║\n" +
                 "╠═══════════════════════════════════════════════════╣\n" +
                 "║                                                   ║\n" +
-                "║ During his turn, a player can move his pawn one   ║\n" +
-                "║ square (vertically or horizontally), then he      ║\n" +
-                "║ destroys one square of the board.                 ║\n" +
-                "║ The last player alive wins.                       ║\n" +
+                "║ During his turn, a player's pawn can \u001B[34mmove one\u001B[0m     ║\n" +
+                "║ \u001B[34msquare\u001B[0m (vertically or horizontally), then he      ║\n" +
+                "║ \u001B[34mdestroys one square\u001B[0m of the board.                 ║\n" +
+                "║ \u001B[32mThe last player alive wins\u001B[0m.                       ║\n" +
                 "║                                                   ║\n" +
-                "║ A player can't destroy an occupied square, nor    ║\n" +
-                "║ can he destroy a destroyed square. He can't move  ║\n" +
-                "║ his pawn to an occupied or destroyed square.      ║\n" +
-                "║ A player who can't move at the end of anyone's    ║\n" +
-                "║ turn is declared dead and lost the game.          ║\n" +
+                "║ A player \u001B[31mcan't destroy an occupied square\u001B[0m, nor    ║\n" +
+                "║ can he destroy a destroyed square. He \u001B[31mcan't move\u001B[0m  ║\n" +
+                "║ \u001B[31mhis pawn to an occupied or destroyed square\u001B[0m.      ║\n" +
+                "║ \u001B[32mA player who can't move at the end of anyone's\u001B[0m    ║\n" +
+                "║ \u001B[32mturn is declared unalived\u001B[0m.                        ║\n" +
                 "║                                                   ║\n" +
-                "║ There are 11 columns and 10 rows (11 by 10 grid). ║\n" +
-                "║ There are 2 to 4 players.                         ║\n" +
-                "║ Players are placed in the middle of the board at  ║\n" +
+                "║ There are \u001B[33m11 columns\u001B[0m and \u001B[33m10 rows\u001B[0m (11 by 10 grid). ║\n" +
+                "║ There are \u001B[33m2 to 4 players\u001B[0m.                         ║\n" +
+                "║ Players are \u001B[35mplaced in the middle of the board\u001B[0m at  ║\n" +
                 "║ the beginning of the game.                        ║\n" +
-                "║ The first player to play is randomly determined.  ║\n" +
+                "║ \u001B[35mThe first player to play is randomly determined\u001B[0m.  ║\n" +
                 "║ Each player moves his pawn vertically or          ║\n" +
-                "║ horizotally in the grid, and then chooses a       ║\n" +
+                "║ horizontally in the grid, and then chooses a      ║\n" +
                 "║ square to destroy.                                ║\n" +
                 "║                                                   ║\n" +
-                "║ A player wins 5 points per won game.              ║\n" +
-                "║ A player loses 2 points per lost game.            ║\n" +
+                "║ A player \u001B[32mwins 5 points per won game\u001B[0m.              ║\n" +
+                "║ A player \u001B[32mloses 2 points per lost game\u001B[0m.            ║\n" +
                 "║                                                   ║\n" +
                 "║   1: Play                                         ║\n" +
                 "║   2: Back to menu                                 ║\n" +

@@ -21,6 +21,10 @@ public class Map {
         return matrix;
     }
 
+    public void setMatrix(char[][] matrix) {
+        this.matrix = matrix;
+    }
+
     public void setSquare(int x, int y, char value) {
         matrix[y][x] = value;
     }
