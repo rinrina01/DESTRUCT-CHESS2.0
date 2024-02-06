@@ -20,6 +20,10 @@ public class Map {
         return matrix;
     }
 
+    public void setSquare(int x, int y, char value) {
+        matrix[x][y] = value;
+    }
+
     public void spawn(int playerCount) {
         /** This function spawns all the players on the map
          * according to the number of players.

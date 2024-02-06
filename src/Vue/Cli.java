@@ -1,5 +1,7 @@
 package Vue;
 
+import Controller.Gamebase;
+
 import java.util.Scanner;
 
 public class Cli {
@@ -23,7 +25,7 @@ public class Cli {
             int userChooseMode = sc.nextInt();
             switch (userChooseMode) {
                 case 1:
-                    // map
+                    Gamebase.start();
                     break;
                 case 2:
                     Rule.backOrStart();
