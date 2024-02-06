@@ -1,5 +1,7 @@
 package Vue;
 
+import Controller.Gamebase;
+
 import java.util.Scanner;
 
 import Controller.Gamebase;
