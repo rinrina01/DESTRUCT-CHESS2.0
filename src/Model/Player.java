@@ -15,12 +15,12 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public Player(String pseudo, int posX, int posY, int score, char symbol) {
+    public Player(String pseudo, int posX, int posY, char symbol) {
         this.pseudo = pseudo;
         this.posX = posX;
         this.posY = posY;
-        this.score = score;
         this.symbol = symbol;
+        this.score = 0;
     }
 
     public void setPosX(int posX) {
@@ -28,6 +28,11 @@ public class Player {
     }
 
     public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
+    public void setPos(int posX, int posY) {
+        this.posX = posX;
         this.posY = posY;
     }
 

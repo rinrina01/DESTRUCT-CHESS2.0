@@ -4,11 +4,12 @@ import Model.Map;
 import Model.Player;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Gamebase {
-    final static Scanner scanner = new Scanner(System.in);
-    static Player[] alivePlayers;
+    static final Scanner sc = new Scanner(System.in);
+    static final ArrayList<Player> alivePlayers = new ArrayList<>();
     static Map map;
 
     public static void initGame() {
@@ -17,16 +18,207 @@ public class Gamebase {
          * paramaters such as number of players and their
          * position on the map.
          */
-        alivePlayers = new Player[] {
-                new Player("player1", 6, 5, 0, 'p'),
-                new Player("player2", 5, 6, 0, 'q') };
-                
+
         map = new Map();
-        System.out.println(map);
-        map.spawn(2); // Spawns the players in the map
+
+        int userInput;
+        do {
+            try {
+                System.out.println("Enter the number of players (between 2 and 4)");
+                userInput = sc.nextInt();
+                if ((userInput >= 2) && (userInput <= 4)) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("That's not a number...");
+            }
+        } while (true);
+
+        addPlayers(userInput); // add players to alivePlayers and in the map
+        // System.out.println(map);
+
+        for (char[] row : map.getMatrix()) {
+            for (char letter : row) {
+                System.out.print(letter);
+                System.out.print(' ');
+            }
+            System.out.println();
+        }
 
         // Index of the randomly chosen starting player
-        playRound(new Random().nextInt(alivePlayers.length));
+        playRound(new Random().nextInt(alivePlayers.size()));
+    }
+
+    public static void addPlayers(int playerCount) {
+        switch (playerCount) {
+            case 2:
+                add2Players();
+                break;
+            case 3:
+                add3Players();
+                break;
+            case 4:
+                add4Players();
+                break;
+        }
+
+    }
+
+    public static void add2Players() {
+        /**
+         * Add 2 players to the map and to the alive players array
+         */
+
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        matrix[4][5] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+        alivePlayers.add(new Player(userInput, 5, 5, 'q'));
+        matrix[5][5] = 'p';
+
+        map.setMatrix(matrix);
+    }
+
+    public static void add3Players() {
+        /**
+         * Add 3 players to the map and to the alive players array
+         */
+
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+
+        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        matrix[4][5] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        matrix[5][4] = 'q';
+
+        // add player3
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player3's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 6, 'r'));
+        matrix[5][6] = 'r';
+
+        map.setMatrix(matrix);
+    }
+
+    public static void add4Players() {
+        /**
+         * Add 4 players to the map and to the alive players array
+         */
+
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+
+        alivePlayers.add(new Player(userInput, 4, 4, 'p'));
+        matrix[4][4] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        matrix[5][4] = 'q';
+
+        // add player3
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player3's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 4, 6, 'r'));
+        matrix[4][6] = 'r';
+
+        // add player4
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player4's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 6, 'q'));
+        matrix[5][6] = 'q';
+
+        map.setMatrix(matrix);
     }
 
     public static void playRound(int indexStartingPlayer) {
@@ -37,10 +229,10 @@ public class Gamebase {
          */
 
         // Use getMovement and destructBlock function with all players
-        for (int i = 0; i < alivePlayers.length; i++) {
-            int index = (indexStartingPlayer + i) % alivePlayers.length;
-            System.out.println("C'est au tour de " + alivePlayers[index].getPseudo());
-            getMovement(alivePlayers[index]); // Ask player to move
+        for (int i = 0; i < alivePlayers.size(); i++) {
+            int index = (indexStartingPlayer + i) % alivePlayers.size();
+            System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
+            getMovement(alivePlayers.get(index)); // Ask player to move
             destroySquare(map); // Ask player to destroy a square
         }
 
@@ -56,7 +248,7 @@ public class Gamebase {
          */
         String direction;
         while (true) {
-            direction = scanner.nextLine();
+            direction = sc.nextLine();
             if (direction == "z") {
                 move(player, map, 'z');
                 break;
