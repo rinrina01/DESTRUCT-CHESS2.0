@@ -3,8 +3,8 @@ package Controller;
 import Model.Map;
 import Model.Player;
 import Vue.Cli;
+import CONFIDENTIAL.CATS.BUTTER.CATWITHBUTTEREDBREADONHISBACK.PIXELLE.EasterEgg;
 
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,32 +13,80 @@ public class Gamebase {
     static final ArrayList<Player> deadPlayers = new ArrayList<>();
     static Map map;
 
-    public static void initGame() {
+    static void addAPlayer(int posX, int posY, char symbol, char[][] matrix) {
+        String userInput;
+        boolean alreadyChosen;
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter the name of " + symbol);
+            userInput = Cli.sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo().equals(userInput)) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, posX, posY, symbol, map));
+        matrix[posY][posX] = symbol;
+    }
+
+    static void add2Players() {
         /*
-         * This function intitalizes all game related paramaters such as number of
-         * players and their position on the map.
+         * This function adds 2 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
          */
 
-        map = new Map();
-        int userInput;
+        char[][] matrix = map.getMatrix();
 
-        do {
-            try {
-                System.out.println("Enter the number of players (between 2 and 4)");
-                userInput = Cli.sc.nextInt();
+        // add player1
+        addAPlayer(4, 5, 'p', matrix);
 
-                if ((userInput >= 2) && (userInput <= 4)) {
-                    break;
-                }
-            } catch (Exception e) {
-                Cli.sc.next();
-                System.out.println("That's not an integer...");
-            }
-        } while (true);
+        // add player2
+        addAPlayer(5, 5, 'q', matrix);
+    }
 
-        addPlayers(userInput); // add players to alivePlayers and in the map
-        playRound(new Random().nextInt(alivePlayers.size())); // index of the randomly chosen starting player & start
-                                                              // round
+    static void add3Players() {
+        /*
+         * This function adds 3 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
+         */
+
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        addAPlayer(4, 5, 'p', matrix);
+
+        // add player2
+        addAPlayer(5, 4, 'q', matrix);
+
+        // add player3
+        addAPlayer(5, 6, 'r', matrix);
+    }
+
+    static void add4Players() {
+        /**
+         * This function adds 4 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
+         */
+
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        addAPlayer(4, 4, 'p', matrix);
+
+        // add player2
+        addAPlayer(4, 6, 'q', matrix);
+
+        // add player3
+        addAPlayer(5, 4, 'r', matrix);
+
+        // add player4
+        addAPlayer(5, 6, 's', matrix);
     }
 
     static void addPlayers(int playerCount) {
@@ -51,200 +99,16 @@ public class Gamebase {
         switch (playerCount) {
             case 2:
                 add2Players();
+
                 break;
             case 3:
                 add3Players();
+
                 break;
             case 4:
                 add4Players();
+
                 break;
-        }
-    }
-
-    static void add2Players() {
-        /*
-         * This function adds 2 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
-         */
-
-        String userInput;
-        boolean alreadyChosen;
-        char[][] matrix = map.getMatrix();
-
-        // add player1
-        do {
-            System.out.println("Enter player1's name");
-            userInput = Cli.sc.nextLine();
-        } while ((userInput.length() < 2) || (userInput.length() >= 10)); // username
-        alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
-        matrix[4][5] = 'p';
-
-        // add player2
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player2's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-        alivePlayers.add(new Player(userInput, 5, 5, 'q', map));
-        matrix[5][5] = 'q';
-    }
-
-    static void add3Players() {
-        /*
-         * This function adds 3 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
-         */
-
-        String userInput;
-        boolean alreadyChosen;
-        char[][] matrix = map.getMatrix();
-
-        // add player1
-        do {
-            System.out.println("Enter player1's name");
-            userInput = Cli.sc.nextLine();
-        } while ((userInput.length() < 2) || (userInput.length() >= 10));
-
-        alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
-        matrix[4][5] = 'p';
-
-        // add player2
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player2's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-
-        alivePlayers.add(new Player(userInput, 4, 5, 'q', map));
-        matrix[5][4] = 'q';
-
-        // add player3
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player3's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-
-        alivePlayers.add(new Player(userInput, 6, 5, 'r', map));
-        matrix[5][6] = 'r';
-    }
-
-    static void add4Players() {
-        /**
-         * This function adds 4 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
-         */
-
-        String userInput;
-        boolean alreadyChosen;
-        char[][] matrix = map.getMatrix();
-
-        // add player1
-        do {
-            System.out.println("Enter player1's name");
-            userInput = Cli.sc.nextLine();
-        } while ((userInput.length() < 2) || (userInput.length() >= 10));
-
-        alivePlayers.add(new Player(userInput, 4, 4, 'p', map));
-        matrix[4][4] = 'p';
-
-        // add player2
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player2's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-
-        alivePlayers.add(new Player(userInput, 4, 5, 'q', map));
-        matrix[5][4] = 'q';
-
-        // add player3
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player3's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-
-        alivePlayers.add(new Player(userInput, 6, 4, 'r', map));
-        matrix[4][6] = 'r';
-
-        // add player4
-        do {
-            alreadyChosen = false;
-            System.out.println("Enter player4's name");
-            userInput = Cli.sc.nextLine();
-
-            for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
-                    alreadyChosen = true;
-                }
-            }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-
-        alivePlayers.add(new Player(userInput, 6, 5, 's', map));
-        matrix[5][6] = 's';
-    }
-
-    static void getMovement(Player player) {
-        /*
-         * This function takes and manages player movement inputs.
-         * 
-         * @param player : of type Player
-         */
-
-        String direction;
-
-        while (true) {
-            direction = Cli.sc.nextLine();
-            if ((direction.equals("z")) || (direction.equals("Z"))) {
-                player.move('z');
-                break;
-            } else if ((direction.equals("q")) || (direction.equals("Q"))) {
-                player.move('q');
-                break;
-            } else if ((direction.equals("s")) || (direction.equals("S"))) {
-                player.move('s');
-                break;
-            } else if ((direction.equals("d")) || (direction.equals("D"))) {
-                player.move('d');
-                break;
-            } else {
-                System.out.println(map);
-                System.out.println("Please enter Z, Q, S or D");
-            }
         }
     }
 
@@ -313,30 +177,32 @@ public class Gamebase {
         } while (true);
     }
 
-    public static void easterEgg() {
-        System.out.println("                    .-====--:.\n" +
-                "                .:=#%%%%%%%%%%%#+-\n" +
-                "              :*###%%%%%%%%%%%%%%%%+\n" +
-                "         .:.:*######%%%%%#%%%%%%%%%%#:\n" +
-                "     :=+#######*++**#######%##%%%%%%%%-\n" +
-                "     *#######+:::::-=+*##############%%%#*+-.\n" +
-                "     -#######=:::::-==+########++===-=+#%#%#=\n" +
-                "      -######=-::::==+##*+==+++*+=+=---+%#**\n" +
-                "      .######*===+**##*==-:===-=**=-:::+%#=\n" +
-                " .:-==+#####%%#######*+=-=-----=*##+==+#%#\n" +
-                "#############%##%####*+=--:::--=+*#%**%#%-\n" +
-                "*####################*==--::---=+*#%##*+=\n" +
-                "*****##############*+=------::--=*##*#=\n" +
-                "*****####%#####%#++****+====--===+***#*\n." +
-                "*****#####%%############********++*+*#*\n." +
-                "****######%%%%########****+****+****##*\n." +
-                "****##%####%%%%%########**********####+\n" +
-                "***##%%%###%%%%%%#####*#####******####=\n" +
-                "==*##%%%%##%%%%%%############***#####*\n" +
-                ":-+*##%%%%##%%%%%%###################:\n" +
-                " .-*###%%%###%%%%#################*##.\n");
-        System.out.println("You tied the game, Pixelle is not happy :(");
-        System.exit(0);
+    public static void initGame() {
+        /*
+         * This function intitalizes all game related paramaters such as number of
+         * players and their position on the map.
+         */
+
+        map = new Map();
+        int userInput;
+
+        do {
+            try {
+                System.out.println("Enter the number of players (between 2 and 4)");
+                userInput = Cli.sc.nextInt();
+
+                if ((userInput >= 2) && (userInput <= 4)) {
+                    break;
+                }
+            } catch (Exception e) {
+                Cli.sc.next();
+                System.out.println("That's not an integer...");
+            }
+        } while (true);
+
+        addPlayers(userInput); // add players to alivePlayers and in the map
+        playRound(new Random().nextInt(alivePlayers.size())); // index of the randomly chosen starting player & start
+                                                              // round
     }
 
     static void playRound(int indexStartingPlayer) {
@@ -353,7 +219,7 @@ public class Gamebase {
 
             int index = (indexStartingPlayer + i) % alivePlayers.size();
             System.out.println("Turn of " + alivePlayers.get(index).getPseudo());
-            getMovement(alivePlayers.get(index)); // ask player to move
+            alivePlayers.get(index).getMovement(); // ask player to move
 
             System.out.println(map);
 
@@ -372,7 +238,7 @@ public class Gamebase {
                 System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
                 gameOver = true;
             } else if (alivePlayers.size() == 0) {
-                easterEgg();
+                EasterEgg.easterEgg();
                 gameOver = true;
             }
         }
