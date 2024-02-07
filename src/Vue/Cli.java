@@ -1,11 +1,12 @@
 package Vue;
 
-import Controller.Gamebase;
 import Model.Player;
 
 import java.util.Scanner;
 
 public class Cli {
+    static public final Scanner sc = new Scanner(System.in);
+
     static public void displayMenu() {
         /**
          * This function displays the menu.
@@ -15,34 +16,38 @@ public class Cli {
                 "║         Menu           ║\n" +
                 "╠════════════════════════╣\n" +
                 "║ 1. Play                ║\n" +
-                "║ 2. Leave               ║\n" +
+                "║ 2. Scores              ║\n" +
+                "║ 3. Leave               ║\n" +
                 "╚════════════════════════╝\n");
     }
 
-    public void displayScores(Player[] allPlayers) {
+    static public void displayScores(Player[] allPlayers) {
         /*
          * This function displays the scores.
          * 
          * @param allPlayers : list with all players
          */
 
-        System.out.println("╔═══════════════════════════════════════════════════╗" +
-                "║         Scores                                    ║" +
-                "╠═══════════════════════════════════════════════════╣" +
-                "║                                                   ║");
+        int i = 1;
+        System.out.println("╔═══════════════════════════════════════════════════╗\n" +
+                "║         Scores                                    ║\n" +
+                "╠═══════════════════════════════════════════════════╣");
         for (Player player : allPlayers) { // loop that displays all scores 1 by 1
             String pseudo = player.getPseudo();
             int score = player.getScore();
-            System.out.println("║         " + pseudo + String.format("%" + (44 - pseudo.length()) + "s", "") + '║');
-            System.out.println(
-                    "║         " + score + String.format("%" + (int) (44 - Math.log10(score)) + "s", "") + '║');
+            System.out.println("║ \u001B[30m" + String.valueOf(i + 1) + ".\u001B[0m " + pseudo + " : "
+                    + (score >= 0 ? "\u001B[32m" : "\u001B[31m") + score + "\u001B[0m"
+                    + String.format(
+                            "%" + (43 - pseudo.length() - (int) (Math.log10(Math.abs(score)))
+                                    - (int) (Math.log10(i + 1) - (score >= 0 ? 0 : 1))) + "s",
+                            "")
+                    + '║');
+            i++;
         }
-        System.out.println("║                                                   ║" +
-                "║                                                   ║" +
-                "╚═══════════════════════════════════════════════════╝");
+        System.out.println("╚═══════════════════════════════════════════════════╝");
     }
 
-    public static void deleteTerminal() {
+    static public void deleteTerminal() {
         /*
          * This function clears terminal.
          */
@@ -61,24 +66,26 @@ public class Cli {
             System.out.println("You're too dumb to play the game, bye");
             System.exit(0);
         }
-        Scanner sc = new Scanner(System.in);
         displayMenu();
         Rules.displayRules();
 
         try {
             int userInput = sc.nextInt();
-            if ((userInput >= 1) && (userInput <= 3)) {  
+            if ((userInput >= 1) && (userInput <= 3)) {
                 switch (userInput) {
                     case 1:
                         deleteTerminal();
-                        Gamebase.initGame(); // launch game
                         break;
                     case 2:
+                        deleteTerminal();
+                        // displayScores();
+                        openMenu(openedTimes + 1);
+                        break;
+                    case 3:
                         deleteTerminal();
                         System.out.println("Bye! Thanks for playing!");
                         System.exit(0); // stop script
                 }
-                sc.close();
             } else {
                 deleteTerminal();
                 System.out.println("Please enter a number between 1 and 3");

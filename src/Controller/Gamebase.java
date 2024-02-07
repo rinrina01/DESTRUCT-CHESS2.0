@@ -2,13 +2,13 @@ package Controller;
 
 import Model.Map;
 import Model.Player;
+import Vue.Cli;
 
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Gamebase {
-    static final Scanner sc = new Scanner(System.in);
     static final ArrayList<Player> alivePlayers = new ArrayList<>();
     static final ArrayList<Player> deadPlayers = new ArrayList<>();
     static Map map;
@@ -25,12 +25,13 @@ public class Gamebase {
         do {
             try {
                 System.out.println("Enter the number of players (between 2 and 4)");
-                userInput = sc.nextInt();
+                userInput = Cli.sc.nextInt();
+
                 if ((userInput >= 2) && (userInput <= 4)) {
                     break;
                 }
             } catch (Exception e) {
-                sc.nextLine();
+                Cli.sc.next();
                 System.out.println("That's not an integer...");
             }
         } while (true);
@@ -74,7 +75,7 @@ public class Gamebase {
         // add player1
         do {
             System.out.println("Enter player1's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10)); // username
         alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
         matrix[4][5] = 'p';
@@ -83,7 +84,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player2's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -109,7 +110,7 @@ public class Gamebase {
         // add player1
         do {
             System.out.println("Enter player1's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
 
         alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
@@ -119,7 +120,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player2's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -135,7 +136,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player3's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -162,7 +163,7 @@ public class Gamebase {
         // add player1
         do {
             System.out.println("Enter player1's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
 
         alivePlayers.add(new Player(userInput, 4, 4, 'p', map));
@@ -172,7 +173,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player2's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -188,7 +189,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player3's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -204,7 +205,7 @@ public class Gamebase {
         do {
             alreadyChosen = false;
             System.out.println("Enter player4's name");
-            userInput = sc.nextLine();
+            userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
@@ -225,8 +226,9 @@ public class Gamebase {
          */
 
         String direction;
+
         while (true) {
-            direction = sc.nextLine();
+            direction = Cli.sc.nextLine();
             if ((direction.equals("z")) || (direction.equals("Z"))) {
                 player.move('z');
                 break;
@@ -263,7 +265,7 @@ public class Gamebase {
                 try {
                     column = 0;
                     System.out.println("Enter the column [A - K]");
-                    columnInput = sc.nextLine();
+                    columnInput = Cli.sc.nextLine();
 
                     if (columnInput.length() == 1) {
                         short asciiValue = (short) (columnInput.charAt(0)); // convert char to ascii value
@@ -282,7 +284,7 @@ public class Gamebase {
                         }
                     }
                 } catch (Exception e) {
-                    sc.nextLine();
+                    Cli.sc.nextLine();
                     System.out.println("Entered value is not correct");
                 }
             } while (true);
@@ -290,12 +292,12 @@ public class Gamebase {
             do { // get row until it is valid
                 try {
                     System.out.println("Enter the row [0 - 9]");
-                    row = sc.nextInt();
+                    row = Cli.sc.nextInt();
                     if ((row >= 0) && (row <= 9)) { // check if row number is valid
                         break;
                     }
                 } catch (Exception e) {
-                    sc.nextLine();
+                    Cli.sc.nextLine();
                     System.out.println("Entered value is not correct");
                 }
             } while (true);
@@ -320,7 +322,7 @@ public class Gamebase {
                 "     *#######+:::::-=+*##############%%%#*+-.\n" +
                 "     -#######=:::::-==+########++===-=+#%#%#=\n" +
                 "      -######=-::::==+##*+==+++*+=+=---+%#**\n" +
-                "      .######*===+**##*==-:\u001B[95mOO\u001B[0m=-=**=-:::+%#=\n" +
+                "      .######*===+**##*==-:===-=**=-:::+%#=\n" +
                 " .:-==+#####%%#######*+=-=-----=*##+==+#%#\n" +
                 "#############%##%####*+=--:::--=+*#%**%#%-\n" +
                 "*####################*==--::---=+*#%##*+=\n" +
@@ -333,6 +335,8 @@ public class Gamebase {
                 "==*##%%%%##%%%%%%############***#####*\n" +
                 ":-+*##%%%%##%%%%%%###################:\n" +
                 " .-*###%%%###%%%%#################*##.\n");
+        System.out.println("You tied the game, Pixelle is not happy :(");
+        System.exit(0);
     }
 
     static void playRound(int indexStartingPlayer) {
@@ -342,20 +346,23 @@ public class Gamebase {
          * @param indexStartingPlayer : the number of the player playing first
          */
 
+        boolean gameOver = false;
         // use getMovement and destructBlock function with all players
         for (int i = 0; i < alivePlayers.size(); i++) {
+            System.out.println(map);
+
             int index = (indexStartingPlayer + i) % alivePlayers.size();
-            System.out.println(map);
-            System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
+            System.out.println("Turn of " + alivePlayers.get(index).getPseudo());
             getMovement(alivePlayers.get(index)); // ask player to move
+
             System.out.println(map);
+
             destroySquare(map); // ask player to destroy a square
 
             // verify if any player is surrounded (game over)
             for (Player player : alivePlayers) {
-                System.out.println("player can move : " + player.canMove());
-                if (!player.canMove()) { // if player dies
-                    deadPlayers.add(player); // add dead player to deadPlayers
+                if (!player.canMove()) { // if a player dies
+                    deadPlayers.add(player); // add him to deadPlayers
                     System.out.println(player.getPseudo() + " has lost.");
                 }
             }
@@ -363,11 +370,14 @@ public class Gamebase {
 
             if (alivePlayers.size() == 1) { // if only one player is alive
                 System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
+                gameOver = true;
             } else if (alivePlayers.size() == 0) {
                 easterEgg();
-            } else {
-                playRound(indexStartingPlayer); // repeat function
+                gameOver = true;
             }
+        }
+        if (!gameOver) {
+            playRound(indexStartingPlayer); // repeat function
         }
     }
 }
