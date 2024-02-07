@@ -16,6 +16,12 @@ public class Cli {
                 "╚════════════════════════╝\n");
     }
 
+    // delete terminal
+    public static void deleteTerminal() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     static public void openMenu(int openedTimes) {
         /**
          * Display menu and get player's input to play, open rules or leave game
@@ -34,22 +40,22 @@ public class Cli {
                 switch (userInput) {
                     case 1:
                         // delete a terminal
-                        Rule.deleteTerminal();
+                        //deleteTerminal();
                         Gamebase.initGame(); // Launch game
                         break;
                     case 2:
-                        Rule.deleteTerminal();
+                        //deleteTerminal();
                         System.out.println("Bye! Thanks for playing!");
                         System.exit(0); // Stop script
                 }
                 sc.close();
             } else {
-                Rule.deleteTerminal();
+                //deleteTerminal();
                 System.out.println("Please enter a number between 1 and 3");
                 openMenu(openedTimes + 1);
             }
         } catch (Exception e) { // Player didn't enter an integer
-            Rule.deleteTerminal();
+            //deleteTerminal();
             System.out.println("Please enter a number between 1 and 3");
             openMenu(openedTimes + 1);
         }

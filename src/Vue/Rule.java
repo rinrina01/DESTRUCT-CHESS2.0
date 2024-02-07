@@ -3,14 +3,7 @@ package Vue;
 import java.util.Scanner;
 
 import Controller.Gamebase;
-
 public class Rule {
-
-    // delete terminal
-    public static void deleteTerminal() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
     static public void displayRules() {
         /**
@@ -65,18 +58,18 @@ public class Rule {
             if ((userInput == 1) || (userInput == 2)) {
                 switch (userInput) {
                     case 1:
-                        deleteTerminal();
+                        Cli.deleteTerminal();
                         Gamebase.initGame(); // Launch game
                         break;
                     case 2:
-                        deleteTerminal();
+                        Cli.deleteTerminal();
                         Cli.openMenu(openedTimes + 1);
                         break;
                 }
                 sc.close();
             }
         } catch (Exception e) {
-            deleteTerminal();
+            Cli.deleteTerminal();
             System.out.println("Please enter a number between 1 and 2");
             openRules(openedTimes + 1);
 

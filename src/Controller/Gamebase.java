@@ -11,6 +11,7 @@ public class Gamebase {
     static final Scanner sc = new Scanner(System.in);
     static final ArrayList<Player> alivePlayers = new ArrayList<>();
     static Map map;
+    static final ArrayList<Player> deadPlayers = new ArrayList<>();
 
     public static void initGame() {
         /*
@@ -70,7 +71,7 @@ public class Gamebase {
             System.out.println("Enter player1's name");
             userInput = sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
-        alivePlayers.add(new Player(userInput, 5, 4, 'p'));
+        alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
         matrix[4][5] = 'p';
 
         // add player2
@@ -80,12 +81,12 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
-        alivePlayers.add(new Player(userInput, 5, 5, 'q'));
+        alivePlayers.add(new Player(userInput, 5, 5, 'q', map));
         matrix[5][5] = 'q';
 
         map.setMatrix(matrix);
@@ -106,7 +107,7 @@ public class Gamebase {
             userInput = sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
 
-        alivePlayers.add(new Player(userInput, 5, 4, 'p'));
+        alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
         matrix[4][5] = 'p';
 
         // add player2
@@ -116,13 +117,13 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 4, 5, 'q'));
+        alivePlayers.add(new Player(userInput, 4, 5, 'q', map));
         matrix[5][4] = 'q';
 
         // add player3
@@ -132,13 +133,13 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 6, 5, 'r'));
+        alivePlayers.add(new Player(userInput, 6, 5, 'r', map));
         matrix[5][6] = 'r';
 
         map.setMatrix(matrix);
@@ -159,7 +160,7 @@ public class Gamebase {
             userInput = sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
 
-        alivePlayers.add(new Player(userInput, 4, 4, 'p'));
+        alivePlayers.add(new Player(userInput, 4, 4, 'p', map));
         matrix[4][4] = 'p';
 
         // add player2
@@ -169,13 +170,13 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 4, 5, 'q'));
+        alivePlayers.add(new Player(userInput, 4, 5, 'q', map));
         matrix[5][4] = 'q';
 
         // add player3
@@ -185,13 +186,13 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 6, 4, 'r'));
+        alivePlayers.add(new Player(userInput, 6, 4, 'r', map));
         matrix[4][6] = 'r';
 
         // add player4
@@ -201,13 +202,13 @@ public class Gamebase {
             userInput = sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo() == userInput) {
+                if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 6, 5, 's'));
+        alivePlayers.add(new Player(userInput, 6, 5, 's', map));
         matrix[5][6] = 's';
 
         map.setMatrix(matrix);
@@ -228,9 +229,23 @@ public class Gamebase {
             getMovement(alivePlayers.get(index)); // Ask player to move
             System.out.println(map);
             destroySquare(map); // Ask player to destroy a square
-        }
 
-        playRound(indexStartingPlayer);
+            // Verify if any player is surrounded (game over)
+            for (Player player : alivePlayers) {
+                System.out.println("player can move : "+player.canMove());
+                if (!player.canMove()) {
+                    deadPlayers.add(player);
+                    System.out.println(player.getPseudo() + " has lost.");
+                }
+            }
+            alivePlayers.removeAll(deadPlayers);
+
+            if (alivePlayers.size() == 1) {
+                System.out.println(alivePlayers.get(0).getPseudo() + " has  won.");
+            } else {
+                playRound(indexStartingPlayer);
+            }
+        }
     }
 
     public static void getMovement(Player player) {
@@ -245,16 +260,16 @@ public class Gamebase {
         while (true) {
             direction = sc.nextLine();
             if ((direction.equals("z")) || (direction.equals("Z"))) {
-                move(player, map, 'z');
+                player.move('z');
                 break;
             } else if ((direction.equals("q")) || (direction.equals("Q"))) {
-                move(player, map, 'q');
+                player.move('q');
                 break;
             } else if ((direction.equals("s")) || (direction.equals("S"))) {
-                move(player, map, 's');
+                player.move('s');
                 break;
             } else if ((direction.equals("d")) || (direction.equals("D"))) {
-                move(player, map, 'd');
+                player.move('d');
                 break;
             } else {
                 System.out.println(map);
@@ -263,64 +278,62 @@ public class Gamebase {
         }
     }
 
-    static void move(Player player, Map map, char direction) {
-        /**
-         * This function moves the player, changes his values and changes the blocks of
-         * the map
-         * 
-         * @param player   of type Player
-         * @param map      of type Map
-         * @param drection of type char
-         **/
-
-        int playerPosX = player.getPosX();
-        int playerPosY = player.getPosY();
-
-        switch (direction) {
-            case 'z': // If is UP (Z key)
-                if (playerPosY > 0) {
-                    map.setSquare(playerPosX, playerPosY, 'a');
-                    map.setSquare(playerPosX, playerPosY - 1, player.getSymbol());
-                    player.setPosY(playerPosY - 1);
-                } else {
-                    System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
-                }
-
-                break;
-            case 'q': // If is LEFT (Q key)
-                if (playerPosX > 0) {
-                    map.setSquare(playerPosX, playerPosY, 'a');
-                    map.setSquare(playerPosX - 1, playerPosY, player.getSymbol());
-                    player.setPosX(playerPosX - 1);
-                } else {
-                    System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
-                }
-
-                break;
-            case 's': // If is DOWN (S key)
-                if (playerPosY < 9) {
-                    map.setSquare(playerPosX, playerPosY, 'a');
-                    map.setSquare(playerPosX, playerPosY + 1, player.getSymbol());
-                    player.setPosY(playerPosY + 1);
-                } else {
-                    System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
-                }
-
-                break;
-            case 'd': // If is RIGHT (D key)
-                if (playerPosX < 10) {
-                    map.setSquare(playerPosX, playerPosY, 'a');
-                    map.setSquare(playerPosX + 1, playerPosY, player.getSymbol());
-                    player.setPosX(playerPosX + 1);
-                } else {
-                    System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
-                }
-
-                break;
-        }
-    }
-
     static void destroySquare(Map map) {
+        int row;
+        String columnInput;
+        int column;
+        char[][] matrix = map.getMatrix();
+        do {
+            do {
+                try {
+                    column = 0;
+                    System.out.println("Enter the column [A - K]");
+                    columnInput = sc.nextLine();
 
+                    if (columnInput.length() == 1) {
+                        short asciiValue = (short) (columnInput.charAt(0));
+                        if (asciiValue >= 97) {
+                            column = asciiValue - 97;
+
+                            if ((column >= 0) && (column <= 10)) {
+                                break;
+                            }
+                        } else if (asciiValue >= 65) {
+                            column = asciiValue - 65;
+
+                            if ((column >= 0) && (column <= 10)) {
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    sc.nextLine();
+                    System.out.println("Entered value is not correct");
+                }
+            } while (true);
+
+            do {
+                try {
+                    System.out.println("Enter the row [0 - 9]");
+                    row = sc.nextInt();
+                    if ((row >= 0) && (row <= 9)) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    sc.nextLine();
+                    System.out.println("Entered value is not correct");
+                }
+            } while (true);
+
+            if (matrix[row][column] == 'a') {
+                System.out.println("Destructed square : " + columnInput + String.valueOf(row));
+                matrix[row][column] = 'd';
+                System.out.println(map);
+                // map.setMatrix(matrix);
+                break;
+            } else {
+                System.out.println("Square is not available, try again");
+            }
+        } while (true);
     }
 }
