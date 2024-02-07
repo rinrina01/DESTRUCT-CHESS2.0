@@ -4,17 +4,17 @@ public class Map {
     private char[][] matrix;
 
     public Map() {
-        this.matrix = new char[][]{
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
-            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'}};
+        this.matrix = new char[][] {
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
+                { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' } };
     }
 
     public char[][] getMatrix() {
@@ -30,7 +30,9 @@ public class Map {
     }
 
     public void spawn(int playerCount) {
-        /** This function spawns all the players on the map, they'll have name code p, q, r and s
+        /**
+         * This function spawns all the players on the map, they'll have name code p, q,
+         * r and s
          * according to the number of players.
          * 
          * @param playerCount previously selected number of players
@@ -60,15 +62,19 @@ public class Map {
     public String toString() {
         String displayed = "";
         char[][] matrix = getMatrix();
-        displayed += "         ═════════════════════════════════════════\n";
+        displayed += "         ═════════════════════════════════════════════\n";
         for (int i = 0; i < matrix.length; i++) {
             displayed += "Row:   " + i + ' ';
             for (int j = 0; j < matrix[i].length; j++) {
-                displayed += "║   ";
+                if (matrix[i][j] != 'a') {
+                    displayed += "║ " + matrix[i][j] + ' ';
+                } else {
+                    displayed += "║   ";
+                }
             }
-            displayed += "\n         ═════════════════════════════════════════\n";
+            displayed += "║\n         ═════════════════════════════════════════════\n";
         }
-        displayed += "Column:    A   B   C   D   E   F   G   H   I   J\n";
+        displayed += "Column:    A   B   C   D   E   F   G   H   I   J   K\n";
         return displayed;
     }
 }

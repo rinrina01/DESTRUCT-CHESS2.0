@@ -20,8 +20,8 @@ public class Gamebase {
          */
 
         map = new Map();
-
         int userInput;
+
         do {
             try {
                 System.out.println("Enter the number of players (between 2 and 4)");
@@ -30,20 +30,12 @@ public class Gamebase {
                     break;
                 }
             } catch (Exception e) {
-                System.out.println("That's not a number...");
+                sc.nextLine();
+                System.out.println("That's not an integer...");
             }
         } while (true);
 
         addPlayers(userInput); // add players to alivePlayers and in the map
-        // System.out.println(map);
-
-        for (char[] row : map.getMatrix()) {
-            for (char letter : row) {
-                System.out.print(letter);
-                System.out.print(' ');
-            }
-            System.out.println();
-        }
 
         // Index of the randomly chosen starting player
         playRound(new Random().nextInt(alivePlayers.size()));
@@ -78,7 +70,7 @@ public class Gamebase {
             System.out.println("Enter player1's name");
             userInput = sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
-        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        alivePlayers.add(new Player(userInput, 5, 4, 'p'));
         matrix[4][5] = 'p';
 
         // add player2
@@ -94,7 +86,7 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
         alivePlayers.add(new Player(userInput, 5, 5, 'q'));
-        matrix[5][5] = 'p';
+        matrix[5][5] = 'q';
 
         map.setMatrix(matrix);
     }
@@ -114,7 +106,7 @@ public class Gamebase {
             userInput = sc.nextLine();
         } while ((userInput.length() < 2) || (userInput.length() >= 10));
 
-        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        alivePlayers.add(new Player(userInput, 5, 4, 'p'));
         matrix[4][5] = 'p';
 
         // add player2
@@ -130,7 +122,7 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        alivePlayers.add(new Player(userInput, 4, 5, 'q'));
         matrix[5][4] = 'q';
 
         // add player3
@@ -146,7 +138,7 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 5, 6, 'r'));
+        alivePlayers.add(new Player(userInput, 6, 5, 'r'));
         matrix[5][6] = 'r';
 
         map.setMatrix(matrix);
@@ -183,7 +175,7 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        alivePlayers.add(new Player(userInput, 4, 5, 'q'));
         matrix[5][4] = 'q';
 
         // add player3
@@ -199,7 +191,7 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 4, 6, 'r'));
+        alivePlayers.add(new Player(userInput, 6, 4, 'r'));
         matrix[4][6] = 'r';
 
         // add player4
@@ -215,8 +207,8 @@ public class Gamebase {
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
 
-        alivePlayers.add(new Player(userInput, 5, 6, 'q'));
-        matrix[5][6] = 'q';
+        alivePlayers.add(new Player(userInput, 6, 5, 's'));
+        matrix[5][6] = 's';
 
         map.setMatrix(matrix);
     }
@@ -231,8 +223,10 @@ public class Gamebase {
         // Use getMovement and destructBlock function with all players
         for (int i = 0; i < alivePlayers.size(); i++) {
             int index = (indexStartingPlayer + i) % alivePlayers.size();
+            System.out.println(map);
             System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
             getMovement(alivePlayers.get(index)); // Ask player to move
+            System.out.println(map);
             destroySquare(map); // Ask player to destroy a square
         }
 
@@ -246,22 +240,24 @@ public class Gamebase {
          * 
          * @param player of type Player
          */
+
         String direction;
         while (true) {
             direction = sc.nextLine();
-            if (direction == "z") {
+            if ((direction.equals("z")) || (direction.equals("Z"))) {
                 move(player, map, 'z');
                 break;
-            } else if (direction == "q") {
+            } else if ((direction.equals("q")) || (direction.equals("Q"))) {
                 move(player, map, 'q');
                 break;
-            } else if (direction == "s") {
+            } else if ((direction.equals("s")) || (direction.equals("S"))) {
                 move(player, map, 's');
                 break;
-            } else if (direction == "d") {
+            } else if ((direction.equals("d")) || (direction.equals("D"))) {
                 move(player, map, 'd');
                 break;
             } else {
+                System.out.println(map);
                 System.out.println("Please enter Z, Q, S or D");
             }
         }
@@ -276,48 +272,50 @@ public class Gamebase {
          * @param map      of type Map
          * @param drection of type char
          **/
+
         int playerPosX = player.getPosX();
         int playerPosY = player.getPosY();
+
         switch (direction) {
             case 'z': // If is UP (Z key)
                 if (playerPosY > 0) {
                     map.setSquare(playerPosX, playerPosY, 'a');
                     map.setSquare(playerPosX, playerPosY - 1, player.getSymbol());
                     player.setPosY(playerPosY - 1);
-                    System.out.println("z");
                 } else {
                     System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
                 }
+
                 break;
             case 'q': // If is LEFT (Q key)
                 if (playerPosX > 0) {
                     map.setSquare(playerPosX, playerPosY, 'a');
                     map.setSquare(playerPosX - 1, playerPosY, player.getSymbol());
                     player.setPosX(playerPosX - 1);
-                    System.out.println("q");
                 } else {
                     System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
                 }
+
                 break;
             case 's': // If is DOWN (S key)
                 if (playerPosY < 9) {
                     map.setSquare(playerPosX, playerPosY, 'a');
                     map.setSquare(playerPosX, playerPosY + 1, player.getSymbol());
                     player.setPosY(playerPosY + 1);
-                    System.out.println("s");
                 } else {
                     System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
                 }
+
                 break;
             case 'd': // If is RIGHT (D key)
                 if (playerPosX < 10) {
                     map.setSquare(playerPosX, playerPosY, 'a');
                     map.setSquare(playerPosX + 1, playerPosY, player.getSymbol());
                     player.setPosX(playerPosX + 1);
-                    System.out.println("d");
                 } else {
                     System.out.println("Dommage vous entrez dans un mur, vous ne bougez pas.");
                 }
+
                 break;
         }
     }
