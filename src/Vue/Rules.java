@@ -3,11 +3,11 @@ package Vue;
 import java.util.Scanner;
 
 import Controller.Gamebase;
-public class Rule {
 
+public class Rules {
     static public void displayRules() {
         /**
-         * Display the rules
+         * This function displays the rules.
          **/
         System.out.print("╔═══════════════════════════════════════════════════╗\n" +
                 "║         Rules                                     ║\n" +
@@ -43,9 +43,9 @@ public class Rule {
 
     static public void openRules(int openedTimes) {
         /**
-         * Display rules and get player's input to play or go back to menu
+         * This function displays the rules and gets player's input to play or go back to menu.
          **/
-        if (openedTimes > 20) {
+        if (openedTimes > 20) { // easter egg
             System.out.println("You're too dumb to play the game, bye");
             System.exit(0);
         }
@@ -59,16 +59,16 @@ public class Rule {
                 switch (userInput) {
                     case 1:
                         Cli.deleteTerminal();
-                        Gamebase.initGame(); // Launch game
+                        Gamebase.initGame(); // launch game
                         break;
                     case 2:
                         Cli.deleteTerminal();
-                        Cli.openMenu(openedTimes + 1);
+                        Cli.openMenu(openedTimes + 1); // open the menu
                         break;
                 }
                 sc.close();
             }
-        } catch (Exception e) {
+        } catch (Exception e) { // if the input of type int is incorrect
             Cli.deleteTerminal();
             System.out.println("Please enter a number between 1 and 2");
             openRules(openedTimes + 1);

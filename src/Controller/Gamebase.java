@@ -10,14 +10,13 @@ import java.util.Random;
 public class Gamebase {
     static final Scanner sc = new Scanner(System.in);
     static final ArrayList<Player> alivePlayers = new ArrayList<>();
-    static Map map;
     static final ArrayList<Player> deadPlayers = new ArrayList<>();
+    static Map map;
 
     public static void initGame() {
         /*
-         * This function initializes all game related
-         * paramaters such as number of players and their
-         * position on the map.
+         * This function intitalizes all game related paramaters such as number of
+         * players and their position on the map.
          */
 
         map = new Map();
@@ -37,12 +36,17 @@ public class Gamebase {
         } while (true);
 
         addPlayers(userInput); // add players to alivePlayers and in the map
-
-        // Index of the randomly chosen starting player
-        playRound(new Random().nextInt(alivePlayers.size()));
+        playRound(new Random().nextInt(alivePlayers.size())); // index of the randomly chosen starting player & start
+                                                              // round
     }
 
     public static void addPlayers(int playerCount) {
+        /*
+         * This function uses the addPlayers functions depending on playerCount.
+         * 
+         * @param playerCount : number of players previously selected by the user
+         */
+
         switch (playerCount) {
             case 2:
                 add2Players();
@@ -54,12 +58,13 @@ public class Gamebase {
                 add4Players();
                 break;
         }
-
     }
 
     public static void add2Players() {
-        /**
-         * Add 2 players to the map and to the alive players array
+        /*
+         * This function adds 2 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
          */
 
         String userInput;
@@ -70,7 +75,7 @@ public class Gamebase {
         do {
             System.out.println("Enter player1's name");
             userInput = sc.nextLine();
-        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+        } while ((userInput.length() < 2) || (userInput.length() >= 10)); // username
         alivePlayers.add(new Player(userInput, 5, 4, 'p', map));
         matrix[4][5] = 'p';
 
@@ -88,13 +93,13 @@ public class Gamebase {
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
         alivePlayers.add(new Player(userInput, 5, 5, 'q', map));
         matrix[5][5] = 'q';
-
-        map.setMatrix(matrix);
     }
 
     public static void add3Players() {
-        /**
-         * Add 3 players to the map and to the alive players array
+        /*
+         * This function adds 3 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
          */
 
         String userInput;
@@ -141,13 +146,13 @@ public class Gamebase {
 
         alivePlayers.add(new Player(userInput, 6, 5, 'r', map));
         matrix[5][6] = 'r';
-
-        map.setMatrix(matrix);
     }
 
     public static void add4Players() {
         /**
-         * Add 4 players to the map and to the alive players array
+         * This function adds 4 players to the map and
+         * stores them in the list containing all alive players
+         * for the current round.
          */
 
         String userInput;
@@ -210,50 +215,47 @@ public class Gamebase {
 
         alivePlayers.add(new Player(userInput, 6, 5, 's', map));
         matrix[5][6] = 's';
-
-        map.setMatrix(matrix);
     }
 
     public static void playRound(int indexStartingPlayer) {
         /*
-         * Starts a play cycle and then replays itself.
+         * Starts a play cycle and then repeats itself until only one player is alive.
          * 
-         * @param
+         * @param indexStartingPlayer : the number of the player playing first
          */
 
-        // Use getMovement and destructBlock function with all players
+        // use getMovement and destructBlock function with all players
         for (int i = 0; i < alivePlayers.size(); i++) {
             int index = (indexStartingPlayer + i) % alivePlayers.size();
             System.out.println(map);
             System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
-            getMovement(alivePlayers.get(index)); // Ask player to move
+            getMovement(alivePlayers.get(index)); // ask player to move
             System.out.println(map);
-            destroySquare(map); // Ask player to destroy a square
+            destroySquare(map); // ask player to destroy a square
 
-            // Verify if any player is surrounded (game over)
+            // verify if any player is surrounded (game over)
             for (Player player : alivePlayers) {
-                System.out.println("player can move : "+player.canMove());
-                if (!player.canMove()) {
-                    deadPlayers.add(player);
+                System.out.println("player can move : " + player.canMove());
+                if (!player.canMove()) { // if player dies
+                    deadPlayers.add(player); // add dead player to deadPlayers
                     System.out.println(player.getPseudo() + " has lost.");
                 }
             }
-            alivePlayers.removeAll(deadPlayers);
+            alivePlayers.removeAll(deadPlayers); // remove deadPlayers from alivePlayers
 
-            if (alivePlayers.size() == 1) {
-                System.out.println(alivePlayers.get(0).getPseudo() + " has  won.");
+            if (alivePlayers.size() == 1) { // if only one player is alive
+                System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
             } else {
-                playRound(indexStartingPlayer);
+                playRound(indexStartingPlayer); // repeat function
             }
         }
     }
 
     public static void getMovement(Player player) {
         /*
-         * This function takes and manages
-         * player movement input.
+         * This function takes and manages player movement inputs.
          * 
-         * @param player of type Player
+         * @param player : of type Player
          */
 
         String direction;
@@ -279,27 +281,34 @@ public class Gamebase {
     }
 
     static void destroySquare(Map map) {
+        /*
+         * This function asks player to enter a square and then destroy it.
+         * 
+         * @param map : of type Map
+         */
+
         int row;
         String columnInput;
         int column;
         char[][] matrix = map.getMatrix();
-        do {
-            do {
+
+        do { // ask for column and row until player enters a free square
+            do { // get column until it is valid
                 try {
                     column = 0;
                     System.out.println("Enter the column [A - K]");
                     columnInput = sc.nextLine();
 
                     if (columnInput.length() == 1) {
-                        short asciiValue = (short) (columnInput.charAt(0));
-                        if (asciiValue >= 97) {
-                            column = asciiValue - 97;
+                        short asciiValue = (short) (columnInput.charAt(0)); // convert char to ascii value
+                        if (asciiValue >= 97) { // if character is a uppercase letter
+                            column = asciiValue - 97; // set as number in the alphabet
 
-                            if ((column >= 0) && (column <= 10)) {
+                            if ((column >= 0) && (column <= 10)) { // check if column number is valid
                                 break;
                             }
-                        } else if (asciiValue >= 65) {
-                            column = asciiValue - 65;
+                        } else if (asciiValue >= 65) { // if character is a lowercase letter
+                            column = asciiValue - 65; // set as number in the alphabet
 
                             if ((column >= 0) && (column <= 10)) {
                                 break;
@@ -312,11 +321,11 @@ public class Gamebase {
                 }
             } while (true);
 
-            do {
+            do { // get row until it is valid
                 try {
                     System.out.println("Enter the row [0 - 9]");
                     row = sc.nextInt();
-                    if ((row >= 0) && (row <= 9)) {
+                    if ((row >= 0) && (row <= 9)) { // check if row number is valid
                         break;
                     }
                 } catch (Exception e) {
@@ -325,11 +334,10 @@ public class Gamebase {
                 }
             } while (true);
 
-            if (matrix[row][column] == 'a') {
+            if (matrix[row][column] == 'a') { // if square is free
                 System.out.println("Destructed square : " + columnInput + String.valueOf(row));
-                matrix[row][column] = 'd';
+                matrix[row][column] = 'd'; // set square as destroyed
                 System.out.println(map);
-                // map.setMatrix(matrix);
                 break;
             } else {
                 System.out.println("Square is not available, try again");

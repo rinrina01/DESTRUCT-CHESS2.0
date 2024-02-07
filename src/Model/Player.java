@@ -18,44 +18,98 @@ public class Player {
     }
 
     public boolean canMove() {
+        /**
+         * This function checks if the player can move in one or multiple directions.
+         * 
+         * @return boolean
+         */
+
         return ((canMoveUp()) || (canMoveDown()) || (canMoveLeft()) || (canMoveRight()));
     }
 
     public boolean canMoveUp() {
-        return ((posY > 0) && (map.getMatrix()[posY - 1][posX] == 'a'));
+        /**
+         * This function checks if the player can move up.
+         * 
+         * @return boolean
+         */
+
+        return ((posY > 0) && (map.getMatrix()[posY - 1][posX] == 'a'));  // if upper square is 'a' (available) AND not a wall
     }
 
     public boolean canMoveLeft() {
-        return ((posX > 0) && (map.getMatrix()[posY][posX - 1] == 'a'));
+        /**
+         * This function checks if the player can move Left.
+         * 
+         * @return boolean
+         */
+
+        return ((posX > 0) && (map.getMatrix()[posY][posX - 1] == 'a')); // if left square is 'a' (available) AND not a wall
     }
 
     public boolean canMoveDown() {
-        return ((posY < 9) && (map.getMatrix()[posY + 1][posX] == 'a'));
+        /**
+         * This function checks if the player can move Down.
+         * 
+         * @return boolean
+         */
+
+        return ((posY < 9) && (map.getMatrix()[posY + 1][posX] == 'a')); // if down square is 'a' (available) AND not a wall
     }
 
     public boolean canMoveRight() {
-        return ((posX < 10) && (map.getMatrix()[posY][posX + 1] == 'a'));
+        /**
+         * This function checks if the player can move Right.
+         * 
+         * @return boolean
+         */
+
+        return ((posX < 10) && (map.getMatrix()[posY][posX + 1] == 'a'));  // if right square is 'a' (available) AND not a wall
     }
 
     public void moveUp() {
+        /**
+         * This function moves the player up in the map and in the variables.
+         * 
+         * @return void
+         */
+
         map.setSquare(posX, posY, 'a');
         map.setSquare(posX, posY - 1, symbol);
         posY -= 1;
     }
 
     public void moveLeft() {
+        /**
+         * This function moves the player left in the map and in the variables.
+         * 
+         * @return void
+         */
+
         map.setSquare(posX, posY, 'a');
         map.setSquare(posX - 1, posY, symbol);
         posX -= 1;
     }
 
     public void moveDown() {
+        /**
+         * This function moves the player down in the map and in the variables.
+         * 
+         * @return void
+         */
+
         map.setSquare(posX, posY, 'a');
         map.setSquare(posX, posY + 1, symbol);
         posY += 1;
     }
 
     public void moveRight() {
+        /**
+         * This function moves the player right in the map and in the variables.
+         * 
+         * @return void
+         */
+
         map.setSquare(posX, posY, 'a');
         map.setSquare(posX + 1, posY, symbol);
         posX += 1;
@@ -63,53 +117,44 @@ public class Player {
 
     public void move(char direction) {
         /**
-         * This function moves the player, changes his values and changes the blocks of
-         * the map
+         * This function moves the player, changes his variables and changes the map.
          * 
-         * @param drection of type char
+         * @param direction : of type char
          **/
 
         switch (direction) {
-            case 'z': // If is UP (Z key)
-                if (canMoveUp()) { // IF upper square is 'a' (available) AND not a wall
+            case 'z': // if the input is UP (Z key)
+                if (canMoveUp()) {
                     moveUp();
                 } else {
                     System.out.println("You can't go there!");
                 }
 
                 break;
-            case 'q': // If is LEFT (Q key)
-                if (canMoveLeft()) { // IF left square is 'a' (available) AND not a wall
+            case 'q': // if the input is LEFT (Q key)
+                if (canMoveLeft()) { 
                     moveLeft();
                 } else {
                     System.out.println("You can't go there!");
                 }
 
                 break;
-            case 's': // If is DOWN (S key)
-                if (canMoveDown()) { // IF down square is 'a' (available) AND not a wall
+            case 's': // if the input is DOWN (S key)
+                if (canMoveDown()) {
                     moveDown();
                 } else {
                     System.out.println("You can't go there!");
                 }
 
                 break;
-            case 'd': // If is RIGHT (D key)
-                if (canMoveRight()) { // IF right square is 'a' (available) AND not a wall
+            case 'd': // if the input is RIGHT (D key)
+                if (canMoveRight()) {
                     moveRight();
                 } else {
                     System.out.println("You can't go there!");
                 }
                 break;
         }
-    }
-
-    public boolean gameOver() {
-
-        // Tester si le joueur est dans un coin
-        // Tester s'il reste au moins un 'a' autour du joueur
-
-        return false;
     }
 
     public char getSymbol() {
