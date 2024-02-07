@@ -12,8 +12,7 @@ public class Cli {
                 "║         Menu           ║\n" +
                 "╠════════════════════════╣\n" +
                 "║ 1. Play                ║\n" +
-                "║ 2. Rules               ║\n" +
-                "║ 3. Leave               ║\n" +
+                "║ 2. Leave               ║\n" +
                 "╚════════════════════════╝\n");
     }
 
@@ -27,27 +26,30 @@ public class Cli {
         }
         Scanner sc = new Scanner(System.in);
         displayMenu();
+        Rule.displayRules();
 
         try {
             int userInput = sc.nextInt();
             if ((userInput >= 1) && (userInput <= 3)) {
                 switch (userInput) {
                     case 1:
+                        // delete a terminal
+                        Rule.deleteTerminal();
                         Gamebase.initGame(); // Launch game
                         break;
                     case 2:
-                        Rule.openRules(openedTimes + 1); // Open rules menu
-                        break;
-                    case 3:
+                        Rule.deleteTerminal();
                         System.out.println("Bye! Thanks for playing!");
                         System.exit(0); // Stop script
                 }
                 sc.close();
             } else {
+                Rule.deleteTerminal();
                 System.out.println("Please enter a number between 1 and 3");
                 openMenu(openedTimes + 1);
             }
         } catch (Exception e) { // Player didn't enter an integer
+            Rule.deleteTerminal();
             System.out.println("Please enter a number between 1 and 3");
             openMenu(openedTimes + 1);
         }

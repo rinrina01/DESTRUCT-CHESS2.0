@@ -5,11 +5,18 @@ import java.util.Scanner;
 import Controller.Gamebase;
 
 public class Rule {
+
+    // delete terminal
+    public static void deleteTerminal() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     static public void displayRules() {
         /**
          * Display the rules
          **/
-        System.out.println("╔═══════════════════════════════════════════════════╗\n" +
+        System.out.print("╔═══════════════════════════════════════════════════╗\n" +
                 "║         Rules                                     ║\n" +
                 "╠═══════════════════════════════════════════════════╣\n" +
                 "║                                                   ║\n" +
@@ -36,8 +43,8 @@ public class Rule {
                 "║ A player \u001B[32mwins 5 points per won game\u001B[0m.              ║\n" +
                 "║ A player \u001B[32mloses 2 points per lost game\u001B[0m.            ║\n" +
                 "║                                                   ║\n" +
-                "║   1: Play                                         ║\n" +
-                "║   2: Back to menu                                 ║\n" +
+                "║                                                   ║\n" +
+                "║                                                   ║\n" +
                 "╚═══════════════════════════════════════════════════╝\n");
     }
 
@@ -58,20 +65,21 @@ public class Rule {
             if ((userInput == 1) || (userInput == 2)) {
                 switch (userInput) {
                     case 1:
+                        deleteTerminal();
                         Gamebase.initGame(); // Launch game
                         break;
                     case 2:
+                        deleteTerminal();
                         Cli.openMenu(openedTimes + 1);
                         break;
                 }
                 sc.close();
-            } else {
-                System.out.println("Please enter a number between 1 and 2");
-                openRules(openedTimes + 1);
             }
         } catch (Exception e) {
+            deleteTerminal();
             System.out.println("Please enter a number between 1 and 2");
-            Rule.displayRules();
+            openRules(openedTimes + 1);
+
         }
     }
 }
