@@ -40,7 +40,7 @@ public class Gamebase {
                                                               // round
     }
 
-    public static void addPlayers(int playerCount) {
+    static void addPlayers(int playerCount) {
         /*
          * This function uses the addPlayers functions depending on playerCount.
          * 
@@ -60,7 +60,7 @@ public class Gamebase {
         }
     }
 
-    public static void add2Players() {
+    static void add2Players() {
         /*
          * This function adds 2 players to the map and
          * stores them in the list containing all alive players
@@ -95,7 +95,7 @@ public class Gamebase {
         matrix[5][5] = 'q';
     }
 
-    public static void add3Players() {
+    static void add3Players() {
         /*
          * This function adds 3 players to the map and
          * stores them in the list containing all alive players
@@ -148,7 +148,7 @@ public class Gamebase {
         matrix[5][6] = 'r';
     }
 
-    public static void add4Players() {
+    static void add4Players() {
         /**
          * This function adds 4 players to the map and
          * stores them in the list containing all alive players
@@ -217,41 +217,7 @@ public class Gamebase {
         matrix[5][6] = 's';
     }
 
-    public static void playRound(int indexStartingPlayer) {
-        /*
-         * Starts a play cycle and then repeats itself until only one player is alive.
-         * 
-         * @param indexStartingPlayer : the number of the player playing first
-         */
-
-        // use getMovement and destructBlock function with all players
-        for (int i = 0; i < alivePlayers.size(); i++) {
-            int index = (indexStartingPlayer + i) % alivePlayers.size();
-            System.out.println(map);
-            System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
-            getMovement(alivePlayers.get(index)); // ask player to move
-            System.out.println(map);
-            destroySquare(map); // ask player to destroy a square
-
-            // verify if any player is surrounded (game over)
-            for (Player player : alivePlayers) {
-                System.out.println("player can move : " + player.canMove());
-                if (!player.canMove()) { // if player dies
-                    deadPlayers.add(player); // add dead player to deadPlayers
-                    System.out.println(player.getPseudo() + " has lost.");
-                }
-            }
-            alivePlayers.removeAll(deadPlayers); // remove deadPlayers from alivePlayers
-
-            if (alivePlayers.size() == 1) { // if only one player is alive
-                System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
-            } else {
-                playRound(indexStartingPlayer); // repeat function
-            }
-        }
-    }
-
-    public static void getMovement(Player player) {
+    static void getMovement(Player player) {
         /*
          * This function takes and manages player movement inputs.
          * 
@@ -343,5 +309,65 @@ public class Gamebase {
                 System.out.println("Square is not available, try again");
             }
         } while (true);
+    }
+
+    public static void easterEgg() {
+        System.out.println("                    .-====--:.\n" +
+                "                .:=#%%%%%%%%%%%#+-\n" +
+                "              :*###%%%%%%%%%%%%%%%%+\n" +
+                "         .:.:*######%%%%%#%%%%%%%%%%#:\n" +
+                "     :=+#######*++**#######%##%%%%%%%%-\n" +
+                "     *#######+:::::-=+*##############%%%#*+-.\n" +
+                "     -#######=:::::-==+########++===-=+#%#%#=\n" +
+                "      -######=-::::==+##*+==+++*+=+=---+%#**\n" +
+                "      .######*===+**##*==-:===-=**=-:::+%#=\n" +
+                " .:-==+#####%%#######*+=-=-----=*##+==+#%#\n" +
+                "#############%##%####*+=--:::--=+*#%**%#%-\n" +
+                "*####################*==--::---=+*#%##*+=\n" +
+                "*****##############*+=------::--=*##*#=\n" +
+                "*****####%#####%#++****+====--===+***#*\n." +
+                "*****#####%%############********++*+*#*\n." +
+                "****######%%%%########****+****+****##*\n." +
+                "****##%####%%%%%########**********####+\n" +
+                "***##%%%###%%%%%%#####*#####******####=\n" +
+                "==*##%%%%##%%%%%%############***#####*\n" +
+                ":-+*##%%%%##%%%%%%###################:\n" +
+                " .-*###%%%###%%%%#################*##.\n");
+    }
+
+    static void playRound(int indexStartingPlayer) {
+        /*
+         * Starts a play cycle and then repeats itself until only one player is alive.
+         * 
+         * @param indexStartingPlayer : the number of the player playing first
+         */
+
+        // use getMovement and destructBlock function with all players
+        for (int i = 0; i < alivePlayers.size(); i++) {
+            int index = (indexStartingPlayer + i) % alivePlayers.size();
+            System.out.println(map);
+            System.out.println("C'est au tour de " + alivePlayers.get(index).getPseudo());
+            getMovement(alivePlayers.get(index)); // ask player to move
+            System.out.println(map);
+            destroySquare(map); // ask player to destroy a square
+
+            // verify if any player is surrounded (game over)
+            for (Player player : alivePlayers) {
+                System.out.println("player can move : " + player.canMove());
+                if (!player.canMove()) { // if player dies
+                    deadPlayers.add(player); // add dead player to deadPlayers
+                    System.out.println(player.getPseudo() + " has lost.");
+                }
+            }
+            alivePlayers.removeAll(deadPlayers); // remove deadPlayers from alivePlayers
+
+            if (alivePlayers.size() == 1) { // if only one player is alive
+                System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
+            } else if (alivePlayers.size() == 0) {
+                easterEgg();
+            } else {
+                playRound(indexStartingPlayer); // repeat function
+            }
+        }
     }
 }

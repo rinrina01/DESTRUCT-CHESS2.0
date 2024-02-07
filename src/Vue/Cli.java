@@ -67,7 +67,7 @@ public class Cli {
 
         try {
             int userInput = sc.nextInt();
-            if ((userInput >= 1) && (userInput <= 3)) {
+            if ((userInput >= 1) && (userInput <= 3)) {  
                 switch (userInput) {
                     case 1:
                         deleteTerminal();
