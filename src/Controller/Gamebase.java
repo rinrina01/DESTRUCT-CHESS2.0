@@ -34,7 +34,7 @@ public class Gamebase {
             }
         } while (true);
 
-        addPlayers(userInput, userInput); // add players to alivePlayers and in the map
+        addPlayers(userInput); // add players to alivePlayers and in the map
         // System.out.println(map);
 
         for (char[] row : map.getMatrix()) {
@@ -49,61 +49,176 @@ public class Gamebase {
         playRound(new Random().nextInt(alivePlayers.size()));
     }
 
-    public static void addPlayers(int playerNumber, int playerCount) {
-        /*
-         * Adds players to alivePlayers and puts them in the map list recursively
-         * 
-         * @param playerNumber the number of the player
-         * 
-         * @param playerCount the total number of players
+    public static void addPlayers(int playerCount) {
+        switch (playerCount) {
+            case 2:
+                add2Players();
+                break;
+            case 3:
+                add3Players();
+                break;
+            case 4:
+                add4Players();
+                break;
+        }
+
+    }
+
+    public static void add2Players() {
+        /**
+         * Add 2 players to the map and to the alive players array
          */
 
-        if (playerNumber != 0) { // Stops recursion if playerNumber hits 0
-            String userInput;
-            boolean alreadyChosen;
-            do {
-                alreadyChosen = false;
-                System.out.println("Enter player" + Integer.valueOf(playerCount - playerNumber + 1) + "'s name");
-                userInput = sc.nextLine();
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
 
-                for (Player player : alivePlayers) {
-                    if (player.getPseudo() == userInput) {
-                        alreadyChosen = true;
-                    }
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        matrix[4][5] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
                 }
-            } while ((userInput.length() < 2) || (userInput.length() >= 10) || (alreadyChosen));
-            // Repeat until player's name has between 2 and 10 characters and is unique
-
-            char[][] matrix = map.getMatrix();
-            switch (playerNumber % 2) { // 0 if a player has to be added in the upper spawn row and 1 for the lower one
-                case 0: // For the upper row
-                    if (matrix[4][5] != 'a') { // If a player is in the middle
-                        alivePlayers.get(alivePlayers.size() - 2).setPos(4, 4); // Move the player to the left square
-                        alivePlayers.add(new Player(userInput, 4, 6, 's')); // Add a player in the right square
-                        matrix[4][4] = 'q';
-                        matrix[4][5] = 'a';
-                        matrix[4][6] = 's';
-                    } else {
-                        alivePlayers.add(new Player(userInput, 5, 5, 'q')); // Add a player in the middle square
-                        matrix[4][5] = 'q';
-                    }
-                    break;
-                case 1: // For the lower row
-                    if (matrix[5][5] != 'a') { // If a player is in the middle
-                        alivePlayers.get(alivePlayers.size() - 2).setPos(5, 4); // Move the player to the left square
-                        alivePlayers.add(new Player(userInput, 5, 6, 'r')); // Add a player in the right square
-                        matrix[5][4] = 'p';
-                        matrix[5][5] = 'a';
-                        matrix[5][6] = 'r';
-                    } else {
-                        alivePlayers.add(new Player(userInput, 5, 5, 'p')); // Add a player in the middle square
-                        matrix[5][5] = 'p';
-                    }
-                    break;
             }
-            map.setMatrix(matrix);
-            addPlayers(playerNumber - 1, playerCount);
-        }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+        alivePlayers.add(new Player(userInput, 5, 5, 'q'));
+        matrix[5][5] = 'p';
+
+        map.setMatrix(matrix);
+    }
+
+    public static void add3Players() {
+        /**
+         * Add 3 players to the map and to the alive players array
+         */
+
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+
+        alivePlayers.add(new Player(userInput, 4, 5, 'p'));
+        matrix[4][5] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        matrix[5][4] = 'q';
+
+        // add player3
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player3's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 6, 'r'));
+        matrix[5][6] = 'r';
+
+        map.setMatrix(matrix);
+    }
+
+    public static void add4Players() {
+        /**
+         * Add 4 players to the map and to the alive players array
+         */
+
+        String userInput;
+        boolean alreadyChosen;
+        char[][] matrix = map.getMatrix();
+
+        // add player1
+        do {
+            System.out.println("Enter player1's name");
+            userInput = sc.nextLine();
+        } while ((userInput.length() < 2) || (userInput.length() >= 10));
+
+        alivePlayers.add(new Player(userInput, 4, 4, 'p'));
+        matrix[4][4] = 'p';
+
+        // add player2
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player2's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 4, 'q'));
+        matrix[5][4] = 'q';
+
+        // add player3
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player3's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 4, 6, 'r'));
+        matrix[4][6] = 'r';
+
+        // add player4
+        do {
+            alreadyChosen = false;
+            System.out.println("Enter player4's name");
+            userInput = sc.nextLine();
+
+            for (Player player : alivePlayers) {
+                if (player.getPseudo() == userInput) {
+                    alreadyChosen = true;
+                }
+            }
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+
+        alivePlayers.add(new Player(userInput, 5, 6, 'q'));
+        matrix[5][6] = 'q';
+
+        map.setMatrix(matrix);
     }
 
     public static void playRound(int indexStartingPlayer) {
