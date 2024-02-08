@@ -2,6 +2,7 @@ package Vue;
 
 import Controller.Saver;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
@@ -9,15 +10,18 @@ import java.util.Scanner;
 public class Cli {
     static public final Scanner sc = new Scanner(System.in);
 
-    static public void deleteTerminal() {
+    static void deleteTerminal() {
         /**
          * This function clears the terminal.
          */
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static ArrayList<String> quickSortAsc(ArrayList<String> pseudos, Map<String, Integer> scores) {
+    static ArrayList<String> quickSortAsc(ArrayList<String> pseudos, Map<String, Integer> scores) {
         if (pseudos.size() <= 1) {
             return pseudos;
         } else {
@@ -43,7 +47,7 @@ public class Cli {
         }
     }
 
-    public static ArrayList<String> quickSortDesc(ArrayList<String> pseudos, Map<String, Integer> scores) {
+    static ArrayList<String> quickSortDesc(ArrayList<String> pseudos, Map<String, Integer> scores) {
         if (pseudos.size() <= 1) {
             return pseudos;
         } else {
@@ -69,7 +73,7 @@ public class Cli {
         }
     }
 
-    static public void displayScores(ArrayList<String> pseudos, Map<String, Integer> scores) {
+    static void displayScores(ArrayList<String> pseudos, Map<String, Integer> scores) {
         /**
          * This function displays the scores.
          *
@@ -104,14 +108,11 @@ public class Cli {
                 "╚═══════════════════════════════════════════════════╝");
     }
 
-    static public void openScores(ArrayList<String> pseudos, Map<String, Integer> scores, int openedTimes) {
+    static public void openScores(int openedTimes) {
         /**
          * This function displays the scores and asks the player the sorting order he
          * wants and if he wants to go back to menu.
          * 
-         * @param pseudos     : sorted list with all players' pseudos
-         * @param scores      : map with all players' pseudos as keys and their scores
-         *                    as values
          * @param openedTimes : number of times the menu, the rules or this menu have
          *                    been opened
          */
@@ -121,40 +122,100 @@ public class Cli {
             System.exit(0);
         }
 
-        displayScores(pseudos, scores);
+        try {
+            Map<String, Integer> scores = Saver.readScores(); // get scores from save file
+            ArrayList<String> pseudos = new ArrayList<>(scores.keySet()); // get pseudos from scores
+            pseudos = quickSortDesc(pseudos, scores); // sort pseudos
 
-        try { // choice of the sorting algorithm
-            int userInput = sc.nextInt();
-            if ((userInput >= 1) && (userInput <= 3)) {
-                switch (userInput) {
-                    case 1:
-                        deleteTerminal();
-                        pseudos = quickSortDesc(pseudos, scores); // allPlayers array is sorted in descending order
-                        openScores(pseudos, scores, openedTimes + 1); // call back to the function displaying the scores
-                        break;
-                    case 2:
-                        deleteTerminal();
-                        pseudos = quickSortAsc(pseudos, scores); // allPlayers array is sorted in ascending order
-                        openScores(pseudos, scores, openedTimes + 1); // call back to the function displaying the scores
-                        break;
-                    case 3:
-                        deleteTerminal();
-                        openMenu(openedTimes + 1);
+            displayScores(pseudos, scores);
+
+            try { // choice of the sorting algorithm
+                int userInput = sc.nextInt();
+                if ((userInput >= 1) && (userInput <= 3)) {
+                    switch (userInput) {
+                        case 1:
+                            deleteTerminal();
+                            openScores(openedTimes + 1, false); // call back to the function displaying the scores
+                            break;
+                        case 2:
+                            deleteTerminal();
+                            openScores(openedTimes + 1, true); // call back to the function displaying the scores
+                            break;
+                        case 3:
+                            deleteTerminal();
+                            openMenu(openedTimes + 1);
+                    }
+                } else {
+                    deleteTerminal();
+                    System.out.println("Please enter a number between 1 and 3");
+                    openScores(openedTimes + 1);
                 }
-            } else {
+            } catch (Exception e) { // player didn't enter an integer
                 deleteTerminal();
-                System.out.println("Please enter a number between 1 and 3");
-                openScores(pseudos, scores, openedTimes + 1);
+                sc.next();
+                System.out.println("Please enter 1, 2 or 3");
+                openScores(openedTimes + 1);
             }
-        } catch (Exception e) { // player didn't enter an integer
-            deleteTerminal();
-            sc.next();
-            System.out.println("Please enter 1, 2 or 3");
-            openScores(pseudos, scores, openedTimes + 1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    static public void displayMenu() {
+    static public void openScores(int openedTimes, boolean asc) {
+        /**
+         * This function displays the scores and asks the player the sorting order he
+         * wants and if he wants to go back to menu.
+         * 
+         * @param openedTimes : number of times the menu, the rules or this menu have
+         *                    been opened
+         * @param asc         : true if sorting scores ascendingly
+         */
+
+        if (openedTimes > 20) { // easter egg
+            System.out.println("You're too dumb to play the game, bye");
+            System.exit(0);
+        }
+
+        try {
+            Map<String, Integer> scores = Saver.readScores(); // get scores from save file
+            ArrayList<String> pseudos = new ArrayList<>(scores.keySet()); // get pseudos from scores
+            pseudos = asc ? quickSortAsc(pseudos, scores) : quickSortDesc(pseudos, scores); // sort pseudos
+
+            displayScores(pseudos, scores);
+
+            try { // choice of the sorting algorithm
+                int userInput = sc.nextInt();
+                if ((userInput >= 1) && (userInput <= 3)) {
+                    switch (userInput) {
+                        case 1:
+                            deleteTerminal();
+                            openScores(openedTimes + 1, false); // call back to the function displaying the scores
+                            break;
+                        case 2:
+                            deleteTerminal();
+                            openScores(openedTimes + 1, true); // call back to the function displaying the scores
+                            break;
+                        case 3:
+                            deleteTerminal();
+                            openMenu(openedTimes + 1);
+                    }
+                } else {
+                    deleteTerminal();
+                    System.out.println("Please enter a number between 1 and 3");
+                    openScores(openedTimes + 1);
+                }
+            } catch (Exception e) { // player didn't enter an integer
+                deleteTerminal();
+                sc.next();
+                System.out.println("Please enter 1, 2 or 3");
+                openScores(openedTimes + 1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void displayMenu() {
         /**
          * This function displays the menu.
          **/
@@ -190,10 +251,7 @@ public class Cli {
                         break;
                     case 2:
                         deleteTerminal();
-                        Map<String, Integer> scores = Saver.readScores();
-                        ArrayList<String> pseudos = new ArrayList<>(scores.keySet());
-                        pseudos = quickSortDesc(pseudos, scores);
-                        openScores(pseudos, scores, openedTimes + 1);
+                        openScores(openedTimes + 1);
                         break;
                     case 3:
                         deleteTerminal();
