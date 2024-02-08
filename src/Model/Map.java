@@ -1,7 +1,7 @@
 package Model;
 
 public class Map {
-    private char[][] matrix;
+    private final char[][] matrix;
 
     public Map() {
         // initializes the grid with 'a' and 'b' for bombs blocks
@@ -27,8 +27,8 @@ public class Map {
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' } };
         
-        int columnBomb = (int)(Math.random() * ((10 - 0) + 1));
-        int rowBomb = (int)(Math.random() * ((9 - 0) + 1));
+        int columnBomb = (int)(Math.random() * 11);
+        int rowBomb = (int)(Math.random() * 10);
         matrix[rowBomb][columnBomb] = 'b';
     
 

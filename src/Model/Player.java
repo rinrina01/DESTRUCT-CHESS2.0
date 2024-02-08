@@ -3,12 +3,12 @@ package Model;
 import Vue.Cli;
 
 public class Player {
-    private String pseudo;
+    private final String pseudo;
     private int posX;
     private int posY;
     private int score;
-    private char symbol;
-    private Map map;
+    private final char symbol;
+    private final Map map;
 
     public Player(String pseudo, int posX, int posY, char symbol, Map map) {
         this.pseudo = pseudo;
