@@ -17,18 +17,21 @@ public class Cli {
         System.out.println("╔════════════════════════╗\n" +
                 "║         Menu           ║\n" +
                 "╠════════════════════════╣\n" +
-                "║ 1. Play                ║\n" +
-                "║ 2. Scores              ║\n" +
-                "║ 3. Leave               ║\n" +
+                "║ \u001B[94m1.\u001B[0m Play                ║\n" +
+                "║ \u001B[94m2.\u001B[0m Scores              ║\n" +
+                "║ \u001B[94m3.\u001B[0m Leave               ║\n" +
                 "╚════════════════════════╝\n");
     }
 
     static public void displayScores(ArrayList<String> pseudos, Map<String, Integer> scores, int openedTimes) {
-        /*
+        /**
          * This function displays the scores.
          *
-         * @param allPlayers : list with all players
-         * @param openedTimes : number of times the menu, the rules or this has been used
+         * @param pseudos     : sorted list with all players' pseudos
+         * @param scores      : map with all players' pseudos as keys and their scores
+         *                    as values
+         * @param openedTimes : number of times the menu, the rules or this menu have
+         *                    been opened
          */
 
         if (openedTimes > 20) { // easter egg
@@ -41,62 +44,64 @@ public class Cli {
                 "║         Scores                                    ║\n" +
                 "╠═══════════════════════════════════════════════════╣");
         for (String pseudo : pseudos) { // loop that displays all scores 1 by 1
-                int score = scores.get(pseudo);
-                System.out.println("║ \u001B[30m" + String.valueOf(i) + ".\u001B[0m " + pseudo + " : "
-                        + (score >= 0 ? "\u001B[32m" : "\u001B[31m") + score + "\u001B[0m"
-                        + String.format(
-                        "%" + (43 - pseudo.length() - (int) (Math.log10(Math.abs(score)))
-                                - (int) (Math.log10(i)) - (score >= 0 ? 0 : 1)) + "s",
-                        "")
-                        + '║');
-                i++;
-                if (i > 10) {
-                    break;
-                }
+            int score = scores.get(pseudo);
+            System.out.println("║ \u001B[90m" + String.valueOf(i) + ".\u001B[0m " + pseudo + " : "
+                    + (score >= 0 ? "\u001B[32m" : "\u001B[31m") + score + "\u001B[0m"
+                    + String.format(
+                            "%" + (43 - pseudo.length() - (int) (Math.log10(Math.abs(score)))
+                                    - (int) (Math.log10(i)) - (score >= 0 ? 0 : 1)) + "s",
+                            "")
+                    + '║');
+            i++;
+            if (i > 10) {
+                break;
+            }
         }
-        System.out.println("║ \uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C" +
-                " ʕ̢̣̣̣̣̩̩̩̩·͡˔·ོɁ̡̣̣̣̣̩̩̩̩✧ " +
-                        "\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C ║\n" +
-                "║ 1. Desc                                           ║\n" +
-                "║ 2. Asc                                            ║\n" +
-                "║ 3. Menu                                           ║\n" +
-                "╚═══════════════════════════════════════════════════╝");
+        System.out.println(
+                "║ \uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C"
+                        +
+                        " ʕ̢̣̣̣̣̩̩̩̩·͡˔·ོɁ̡̣̣̣̣̩̩̩̩✧ " +
+                        "\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C\uD81A\uDC7C\uD81A\uDD23\uD81A\uDD67\uD81A\uDC7C ║\n"
+                        +
+                        "║ \u001B[94m1.\u001B[0m Desc                                           ║\n" +
+                        "║ \u001B[94m2.\u001B[0m Asc                                            ║\n" +
+                        "║ \u001B[94m3.\u001B[0m Menu                                           ║\n" +
+                        "╚═══════════════════════════════════════════════════╝");
 
-        // Iterate on Map containing all usernames and associated scores
-
-
-        do { // choice of the sorting algorithm
-            try {
-                int userInput = sc.nextInt();
+        try { // choice of the sorting algorithm
+            int userInput = sc.nextInt();
+            if ((userInput >= 1) && (userInput <= 3)) {
                 switch (userInput) {
                     case 1:
                         deleteTerminal();
                         pseudos = quickSortDesc(pseudos, scores); // allPlayers array is sorted in descending order
-                        displayScores(pseudos, scores, openedTimes + 1);              // call back to the function displaying the scores
+                        displayScores(pseudos, scores, openedTimes + 1); // call back to the function displaying the scores
                         break;
                     case 2:
                         deleteTerminal();
                         pseudos = quickSortAsc(pseudos, scores); // allPlayers array is sorted in ascending order
-                        displayScores(pseudos, scores, openedTimes + 1);              // call back to the function displaying the scores
+                        displayScores(pseudos, scores, openedTimes + 1); // call back to the function displaying the scores
                         break;
                     case 3:
                         deleteTerminal();
                         openMenu(openedTimes + 1);
-                    default:
-                        System.out.println("Please enter DESC or ASC");
                 }
-            } catch (Exception e) { // player didn't enter DESC or ASC
+            } else {
                 deleteTerminal();
-                sc.next();
-                System.out.println("Please enter DESC or ASC");
+                System.out.println("Please enter a number between 1 and 3");
+                displayScores(pseudos, scores, openedTimes + 1);
             }
+        } catch (Exception e) { // player didn't enter an integer
+            deleteTerminal();
+            sc.next();
+            System.out.println("Please enter 1, 2 or 3");
+            displayScores(pseudos, scores, openedTimes + 1);
         }
-        while (true) ;
     }
 
     static public void deleteTerminal() {
-        /*
-         * This function clears terminal.
+        /**
+         * This function clears the terminal.
          */
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -112,8 +117,8 @@ public class Cli {
             System.out.println("You're too dumb to play the game, bye");
             System.exit(0);
         }
-        displayMenu();
         Rules.displayRules();
+        displayMenu();
 
         try {
             int userInput = sc.nextInt();
@@ -125,7 +130,9 @@ public class Cli {
                     case 2:
                         deleteTerminal();
                         Map<String, Integer> scores = Saver.readScores();
-                        displayScores(new ArrayList<>(scores.keySet()), scores, openedTimes+1);
+                        ArrayList<String> pseudos = new ArrayList<>(scores.keySet());
+                        pseudos = quickSortDesc(pseudos, scores);
+                        displayScores(pseudos, scores, openedTimes + 1);
                         openMenu(openedTimes + 1);
                         break;
                     case 3:
@@ -145,16 +152,16 @@ public class Cli {
         }
     }
 
-    public static ArrayList<String> quickSortAsc(ArrayList<String> tab, Map<String, Integer> scores) {
-        if (tab.size() <= 1) {
-            return tab;
+    public static ArrayList<String> quickSortAsc(ArrayList<String> pseudos, Map<String, Integer> scores) {
+        if (pseudos.size() <= 1) {
+            return pseudos;
         } else {
-            int pivot = scores.get(tab.get(0));
+            int pivot = scores.get(pseudos.get(0));
             ArrayList<String> lesser = new ArrayList<>();
             ArrayList<String> equals = new ArrayList<>();
             ArrayList<String> greater = new ArrayList<>();
 
-            for (String pseudo : tab) {
+            for (String pseudo : pseudos) {
                 int score = scores.get(pseudo);
                 if (score < pivot) {
                     lesser.add(pseudo);
@@ -171,16 +178,16 @@ public class Cli {
         }
     }
 
-    public static ArrayList<String> quickSortDesc(ArrayList<String> tab, Map<String, Integer> scores) {
-        if (tab.size() <= 1) {
-            return tab;
+    public static ArrayList<String> quickSortDesc(ArrayList<String> pseudos, Map<String, Integer> scores) {
+        if (pseudos.size() <= 1) {
+            return pseudos;
         } else {
-            int pivot = scores.get(tab.get(0));
+            int pivot = scores.get(pseudos.get(0));
             ArrayList<String> lesser = new ArrayList<>();
             ArrayList<String> equals = new ArrayList<>();
             ArrayList<String> greater = new ArrayList<>();
 
-            for (String pseudo : tab) {
+            for (String pseudo : pseudos) {
                 int score = scores.get(pseudo);
                 if (score < pivot) {
                     lesser.add(pseudo);

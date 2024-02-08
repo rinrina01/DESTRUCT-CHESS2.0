@@ -12,7 +12,6 @@ public class Rules {
         System.out.print("╔═══════════════════════════════════════════════════╗\n" +
                 "║         Rules                                     ║\n" +
                 "╠═══════════════════════════════════════════════════╣\n" +
-                "║                                                   ║\n" +
                 "║ During his turn, a player's pawn can \u001B[34mmove one\u001B[0m     ║\n" +
                 "║ \u001B[34msquare\u001B[0m (vertically or horizontally), then he      ║\n" +
                 "║ \u001B[34mdestroys one square\u001B[0m of the board.                 ║\n" +
@@ -35,9 +34,6 @@ public class Rules {
                 "║                                                   ║\n" +
                 "║ A player \u001B[32mwins 5 points per won game\u001B[0m.              ║\n" +
                 "║ A player \u001B[32mloses 2 points per lost game\u001B[0m.            ║\n" +
-                "║                                                   ║\n" +
-                "║                                                   ║\n" +
-                "║                                                   ║\n" +
                 "╚═══════════════════════════════════════════════════╝\n");
     }
 
