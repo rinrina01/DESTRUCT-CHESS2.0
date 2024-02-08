@@ -6,7 +6,6 @@ import Vue.Cli;
 import CONFIDENTIAL.CATS.BUTTER.CATWITHBUTTEREDBREADONHISBACK.PIXELLE.EasterEgg;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Gamebase {
@@ -16,6 +15,15 @@ public class Gamebase {
     static Map map;
 
     static void addAPlayer(int posX, int posY, char symbol, char[][] matrix) {
+        /**
+         * This function creates and adds a player with given parameters to alivePlayers
+         * and to the map.
+         * 
+         * @param posX   : row where is located the player
+         * @param posY   : column where is located the player
+         * @param symbol : the character to recognize the player
+         * @param matrix : the map
+         */
         String userInput;
         boolean alreadyChosen;
         do {
@@ -36,10 +44,8 @@ public class Gamebase {
     }
 
     static void add2Players() {
-        /*
-         * This function adds 2 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
+        /**
+         * This function uses the AddAPlayer function twice.
          */
 
         char[][] matrix = map.getMatrix();
@@ -52,10 +58,8 @@ public class Gamebase {
     }
 
     static void add3Players() {
-        /*
-         * This function adds 3 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
+        /**
+         * This function uses the AddAPlayer function three times.
          */
 
         char[][] matrix = map.getMatrix();
@@ -72,9 +76,7 @@ public class Gamebase {
 
     static void add4Players() {
         /**
-         * This function adds 4 players to the map and
-         * stores them in the list containing all alive players
-         * for the current round.
+         * This function uses the AddAPlayer function four times.
          */
 
         char[][] matrix = map.getMatrix();
@@ -93,8 +95,9 @@ public class Gamebase {
     }
 
     static void addPlayers(int playerCount) {
-        /*
-         * This function uses the addPlayers functions depending on playerCount.
+        /**
+         * This function uses the addPlayers functions depending on playerCount and then
+         * add all alivePlayers to AllPlayers.
          * 
          * @param playerCount : number of players previously selected by the user
          */
@@ -118,10 +121,10 @@ public class Gamebase {
     }
 
     static void destroySquare(Map map) {
-        /*
-         * This function asks player to enter a square and then destroy it.
+        /**
+         * This function asks player to enter a square to destroy it.
          * 
-         * @param map : of type Map
+         * @param map : the map
          */
 
         int row;
@@ -130,31 +133,24 @@ public class Gamebase {
         char[][] matrix = map.getMatrix();
 
         do { // ask for column and row until player enters a free square
-            do { // get column until it is valid
-                try {
-                    column = 0;
-                    System.out.println("Enter the column [A - K]");
-                    columnInput = Cli.sc.nextLine();
+            do { // ask column until input is valid
+                column = 0;
+                System.out.println("Enter the column [A - K]");
+                columnInput = Cli.sc.nextLine();
 
-                    if (columnInput.length() == 1) {
-                        short asciiValue = (short) (columnInput.charAt(0)); // convert char to ascii value
-                        if (asciiValue >= 97) { // if character is a uppercase letter
-                            column = asciiValue - 97; // set as number in the alphabet
-
-                            if ((column >= 0) && (column <= 10)) { // check if column number is valid
-                                break;
-                            }
-                        } else if (asciiValue >= 65) { // if character is a lowercase letter
-                            column = asciiValue - 65; // set as number in the alphabet
-
-                            if ((column >= 0) && (column <= 10)) {
-                                break;
-                            }
+                if (columnInput.length() == 1) {
+                    short asciiValue = (short) (columnInput.charAt(0)); // convert char to ascii value
+                    if (asciiValue >= 97) { // if character is a uppercase letter
+                        column = asciiValue - 97; // set as the letter's number in the alphabet
+                        if ((column >= 0) && (column <= 10)) { // check if column number is valid
+                            break;
+                        }
+                    } else if (asciiValue >= 65) { // if character is a lowercase letter
+                        column = asciiValue - 65; // set as the letter's number in the alphabet
+                        if ((column >= 0) && (column <= 10)) {
+                            break;
                         }
                     }
-                } catch (Exception e) {
-                    Cli.sc.nextLine();
-                    System.out.println("Entered value is not correct");
                 }
             } while (true);
 
@@ -166,7 +162,7 @@ public class Gamebase {
                         break;
                     }
                 } catch (Exception e) {
-                    Cli.sc.nextLine();
+                    Cli.sc.next(); // clean unused input
                     System.out.println("Entered value is not correct");
                 }
             } while (true);
@@ -183,9 +179,10 @@ public class Gamebase {
     }
 
     public static void initGame() {
-        /*
-         * This function intitalizes all game related paramaters such as number of
-         * players and their position on the map.
+        /**
+         * This function intitalizes all game related parameters such as the number of
+         * players and their position in the map.
+         * It then launches the first round of the game.
          */
 
         map = new Map();
@@ -196,11 +193,11 @@ public class Gamebase {
                 System.out.println("Enter the number of players (between 2 and 4)");
                 userInput = Cli.sc.nextInt();
 
-                if ((userInput >= 2) && (userInput <= 4)) {
+                if ((userInput >= 2) && (userInput <= 4)) { // check if user input is between 2 and 4
                     break;
                 }
             } catch (Exception e) {
-                Cli.sc.next();
+                Cli.sc.next(); // clean unused input
                 System.out.println("That's not an integer...");
             }
         } while (true);
@@ -211,8 +208,8 @@ public class Gamebase {
     }
 
     static void playRound(int indexStartingPlayer) {
-        /*
-         * Starts a play cycle and then repeats itself until only one player is alive.
+        /**
+         * Starts the play cycle which repeats itself until the last second player dies.
          * 
          * @param indexStartingPlayer : the number of the player playing first
          */

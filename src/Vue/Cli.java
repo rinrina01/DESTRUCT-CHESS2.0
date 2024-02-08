@@ -124,7 +124,7 @@ public class Cli {
                         break;
                     case 2:
                         deleteTerminal();
-                        Map<String, Integer> scores = Saver.readScores("hfjskdf.txt");
+                        Map<String, Integer> scores = Saver.readScores();
                         displayScores(new ArrayList<>(scores.keySet()), scores, openedTimes+1);
                         openMenu(openedTimes + 1);
                         break;
