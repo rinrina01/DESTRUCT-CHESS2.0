@@ -31,6 +31,79 @@ public class Player {
         return pseudo;
     }
 
+    public int getPosX() {
+        return this.posX;
+    }
+
+    public int getPosY() {
+        return this.posY;
+    }
+
+    boolean checkBombBlock(char direction) {
+        /**
+         * This function checks a bomb block and do the action
+         * @return bool : if the square, the player is going to is a bomb
+         */
+        switch (direction) {
+            case 'z': // BOMB IS UPPER ?
+                if ((getPosY() > 0) && (map.getSquare(getPosX(), getPosY()-1) == 'b')) { // If the block of the player's direction is a bomb
+                    return true;
+                } else {
+                    return false;
+                }
+                
+
+            case 's': // BOMB IS DOWNER ?
+                if ((getPosY() < 9) && (map.getSquare(getPosX(), getPosY()+1) == 'b')) { // If the block of the player's direction is a bomb
+                    return true;
+                } else {
+                    return false;
+                }
+
+            case 'q': // BOMB IS LEFTER ?
+                if ((getPosX() > 0) && (map.getSquare(getPosX()-1, getPosY()) == 'b')) { // If the block of the player's direction is a bomb
+                    return true;
+                } else {
+                    return false;
+                }
+
+            case 'd': // BOMB IS RIGHTER ?
+                if ((getPosX() < 10) && (map.getSquare(getPosX()+1, getPosY()) == 'b')) { // If the block of the player's direction is a bomb
+                    return true;
+                } else {
+                    return false;
+                }
+
+        }
+        return false;
+        
+    }
+
+    void enclosePlayerWithDestructedBlocks(int column, int row) {
+        /*
+         * This function encloses a cell in the map of destroyed blocks
+         * @param column : the column position of the block designed
+         * @param row : the row position of the block designed
+         */
+        int x;
+        int y; 
+
+        for (x=column;x<3+column;x++) { // replaces all the blocks arond the block selected
+            for (y=-1+row;y<2+row;y++) { // replaces all the blocks arond the block selected
+                System.out.println(x+" | "+y);
+                if ((x > 0) || (y > 0) || (x < 10) || (y < 9)) { // avoid out of ranges
+                    if (map.getSquare(x, y) == 'a') {// if the square is available
+                        System.out.println("ok");
+                        map.setSquare(x, y, 'd');
+                    }
+                }
+                
+            }
+        }
+
+    }
+
+
     boolean canMoveUp() {
         /**
          * This function checks if the player can move up.
@@ -140,35 +213,53 @@ public class Player {
          * @param direction : of type char
          **/
 
+        boolean isBombBlock = checkBombBlock(direction);
+
         switch (direction) {
             case 'z': // if the input is UP (Z key)
-                if (canMoveUp()) {
+                if (canMoveUp() || isBombBlock == true) {
                     moveUp();
-                } else {
+                    if (isBombBlock) { // if a bomb is in the direction
+                        System.out.println("The player has touched the bomb, is locked in and has now lost.");
+                        enclosePlayerWithDestructedBlocks(getPosX()+1, getPosY());
+                    }
+                } else { // if there a wall in this direction
                     System.out.println("You can't go there!");
                 }
-
                 break;
+
             case 'q': // if the input is LEFT (Q key)
-                if (canMoveLeft()) {
-                    moveLeft();
-                } else {
+                if (canMoveLeft() || isBombBlock == true) {
+                        moveLeft();
+                        if (isBombBlock) { // if a bomb is in the directio
+                            System.out.println("The player has touched the bomb, is locked in and has now lost.");
+                            enclosePlayerWithDestructedBlocks(getPosX()-1, getPosY());
+                        }
+                } else { // if there a wall in this direction
                     System.out.println("You can't go there!");
                 }
-
                 break;
+
             case 's': // if the input is DOWN (S key)
-                if (canMoveDown()) {
-                    moveDown();
-                } else {
+                if (canMoveDown() || isBombBlock == true) {
+                        moveDown();
+                        if (isBombBlock) { // if a bomb is in the directio
+                            System.out.println("The player has touched the bomb, is locked in and has now lost.");
+                            enclosePlayerWithDestructedBlocks(getPosX(), getPosY()+1);
+                        }
+                } else { // if there a wall in this direction
                     System.out.println("You can't go there!");
                 }
-
                 break;
+
             case 'd': // if the input is RIGHT (D key)
-                if (canMoveRight()) {
-                    moveRight();
-                } else {
+                if (canMoveRight() || isBombBlock == true) {
+                        moveRight();
+                        if (isBombBlock) { // if a bomb is in the directio
+                            System.out.println("The player has touched the bomb, is locked in and has now lost.");
+                            enclosePlayerWithDestructedBlocks(getPosX()+1, getPosY());
+                        }
+                } else { // if there a wall in this direction
                     System.out.println("You can't go there!");
                 }
                 break;
