@@ -5,6 +5,7 @@ import Model.Player;
 import Vue.Cli;
 import CONFIDENTIAL.CATS.BUTTER.CATWITHBUTTEREDBREADONHISBACK.PIXELLE.EasterEgg;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -248,11 +249,16 @@ public class Gamebase {
             } else if (alivePlayers.isEmpty()) {
                 EasterEgg.easterEgg();
                 gameOver = true;
-
             }
         }
         if (!gameOver) {
             playRound(indexStartingPlayer); // repeat function
+        } else {
+            try {
+                Saver.writeScores(allPlayers);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
