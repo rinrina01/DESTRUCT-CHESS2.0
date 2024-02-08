@@ -4,7 +4,18 @@ public class Map {
     private char[][] matrix;
 
     public Map() {
-        this.matrix = new char[][] { // initializes the grid with only 'a's
+        // initializes the grid with 'a' and 'b' for bombs blocks
+        this.matrix = generateMatrix();
+
+        /*
+         * a => available
+         * d => destroyed
+         * other => players
+         */
+    }
+
+    public char[][] generateMatrix() {
+        char[][] matrix = new char[][] { // initializes the grid with only 'a's
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
@@ -15,11 +26,13 @@ public class Map {
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' } };
-        /*
-         * a => available
-         * d => destroyed
-         * other => players
-         */
+        
+        int columnBomb = (int)(Math.random() * ((10 - 0) + 1));
+        int rowBomb = (int)(Math.random() * ((9 - 0) + 1));
+        matrix[rowBomb][columnBomb] = 'b';
+    
+
+        return matrix;
     }
 
     public char[][] getMatrix() {
@@ -28,6 +41,10 @@ public class Map {
 
     public void setSquare(int x, int y, char value) {
         matrix[y][x] = value;
+    }
+
+    public char getSquare(int x, int y) {
+        return matrix[y][x];
     }
 
     @Override
@@ -46,7 +63,32 @@ public class Map {
             displayed += "Row:   " + i + ' ';
             for (int j = 0; j < matrix[i].length; j++) { // loops every columns
                 if (matrix[i][j] != 'a') {
-                    displayed += "║ " + matrix[i][j] + ' ';
+
+                    String displayBlock = ""; // string containing the color and content of the box
+                    String displayColorReset = "\u001B[0m";
+                    switch (matrix[i][j]) { // manages display colors according to the box
+                        case 'p': // Player 1
+                            displayBlock = "\u001B[34mp";
+                            break;
+                        case 'q': // Player 2
+                            displayBlock = "\u001B[31mq";
+                            break;
+                        case 'r': // Player 3
+                            displayBlock = "\u001B[33mr";
+                            break;
+                        case 's': // Player 4
+                            displayBlock = "\u001B[32ms";
+                            break;
+                        case 'b': // Bomb block
+                            displayBlock = "\033[0;35mB";
+                            break;
+                        case 'd': // Destructed block
+                            displayBlock = "\033[0;30mX";
+                            break;
+                    }
+                    displayed += "║ " + displayBlock + displayColorReset + ' ';
+
+
                 } else {
                     displayed += "║   ";
                 }
