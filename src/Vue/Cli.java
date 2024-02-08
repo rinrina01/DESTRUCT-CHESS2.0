@@ -14,11 +14,7 @@ public class Cli {
         /**
          * This function clears the terminal.
          */
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.println("\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n \n\n\n\n\n\n\n\n\n\n");
     }
 
     static ArrayList<String> quickSortAsc(ArrayList<String> pseudos, Map<String, Integer> scores) {
