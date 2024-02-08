@@ -6,9 +6,11 @@ import Vue.Cli;
 import CONFIDENTIAL.CATS.BUTTER.CATWITHBUTTEREDBREADONHISBACK.PIXELLE.EasterEgg;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Gamebase {
+    static public final ArrayList<Player> allPlayers = new ArrayList<>();
     static final ArrayList<Player> alivePlayers = new ArrayList<>();
     static final ArrayList<Player> deadPlayers = new ArrayList<>();
     static Map map;
@@ -24,6 +26,7 @@ public class Gamebase {
             for (Player player : alivePlayers) {
                 if (player.getPseudo().equals(userInput)) {
                     alreadyChosen = true;
+                    break;
                 }
             }
         } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
@@ -42,7 +45,7 @@ public class Gamebase {
         char[][] matrix = map.getMatrix();
 
         // add player1
-        addAPlayer(4, 5, 'p', matrix);
+        addAPlayer(5, 4, 'p', matrix);
 
         // add player2
         addAPlayer(5, 5, 'q', matrix);
@@ -58,13 +61,13 @@ public class Gamebase {
         char[][] matrix = map.getMatrix();
 
         // add player1
-        addAPlayer(4, 5, 'p', matrix);
+        addAPlayer(5, 4, 'p', matrix);
 
         // add player2
-        addAPlayer(5, 4, 'q', matrix);
+        addAPlayer(4, 5, 'q', matrix);
 
         // add player3
-        addAPlayer(5, 6, 'r', matrix);
+        addAPlayer(6, 5, 'r', matrix);
     }
 
     static void add4Players() {
@@ -80,13 +83,13 @@ public class Gamebase {
         addAPlayer(4, 4, 'p', matrix);
 
         // add player2
-        addAPlayer(4, 6, 'q', matrix);
+        addAPlayer(6, 4, 'q', matrix);
 
         // add player3
-        addAPlayer(5, 4, 'r', matrix);
+        addAPlayer(4, 5, 'r', matrix);
 
         // add player4
-        addAPlayer(5, 6, 's', matrix);
+        addAPlayer(6, 5, 's', matrix);
     }
 
     static void addPlayers(int playerCount) {
@@ -110,6 +113,8 @@ public class Gamebase {
 
                 break;
         }
+
+        allPlayers.addAll(alivePlayers);
     }
 
     static void destroySquare(Map map) {
@@ -230,16 +235,23 @@ public class Gamebase {
                 if (!player.canMove()) { // if a player dies
                     deadPlayers.add(player); // add him to deadPlayers
                     System.out.println(player.getPseudo() + " has lost.");
+                    // player loses points
+                    player.setScore(-2);
                 }
             }
             alivePlayers.removeAll(deadPlayers); // remove deadPlayers from alivePlayers
 
             if (alivePlayers.size() == 1) { // if only one player is alive
-                System.out.println(alivePlayers.get(0).getPseudo() + " has won.");
+                Player victoryMan = alivePlayers.get(0);
+                System.out.println(victoryMan.getPseudo() + " has won.");
                 gameOver = true;
-            } else if (alivePlayers.size() == 0) {
+                // add points to winning player
+                victoryMan.setScore(5);
+
+            } else if (alivePlayers.isEmpty()) {
                 EasterEgg.easterEgg();
                 gameOver = true;
+
             }
         }
         if (!gameOver) {
