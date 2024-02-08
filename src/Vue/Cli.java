@@ -193,7 +193,7 @@ public class Cli {
                         Map<String, Integer> scores = Saver.readScores();
                         ArrayList<String> pseudos = new ArrayList<>(scores.keySet());
                         pseudos = quickSortDesc(pseudos, scores);
-                        OpenScores(pseudos, scores, openedTimes + 1);
+                        openScores(pseudos, scores, openedTimes + 1);
                         break;
                     case 3:
                         deleteTerminal();
