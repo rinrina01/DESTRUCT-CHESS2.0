@@ -1,4 +1,5 @@
-save.txt
+*.txt
+
 
 ### IntelliJ IDEA ###
 out/
