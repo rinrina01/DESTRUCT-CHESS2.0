@@ -1,5 +1,7 @@
 package Model;
 
+import Vue.Cli;
+
 public class Player {
     private String pseudo;
     private int posX;
@@ -17,6 +19,62 @@ public class Player {
         this.score = 0;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    boolean canMoveUp() {
+        /**
+         * This function checks if the player can move up.
+         * 
+         * @return boolean
+         */
+
+        return ((posY > 0) && (map.getMatrix()[posY - 1][posX] == 'a')); // if upper square is 'a' (available) AND not a
+                                                                         // wall
+    }
+
+    boolean canMoveLeft() {
+        /**
+         * This function checks if the player can move Left.
+         * 
+         * @return boolean
+         */
+
+        return ((posX > 0) && (map.getMatrix()[posY][posX - 1] == 'a')); // if left square is 'a' (available) AND not a
+                                                                         // wall
+    }
+
+    boolean canMoveDown() {
+        /**
+         * This function checks if the player can move Down.
+         * 
+         * @return boolean
+         */
+
+        return ((posY < 9) && (map.getMatrix()[posY + 1][posX] == 'a')); // if down square is 'a' (available) AND not a
+                                                                         // wall
+    }
+
+    boolean canMoveRight() {
+        /**
+         * This function checks if the player can move Right.
+         * 
+         * @return boolean
+         */
+
+        return ((posX < 10) && (map.getMatrix()[posY][posX + 1] == 'a')); // if right square is 'a' (available) AND not
+                                                                          // a wall
+    }
+
     public boolean canMove() {
         /**
          * This function checks if the player can move in one or multiple directions.
@@ -27,47 +85,7 @@ public class Player {
         return ((canMoveUp()) || (canMoveDown()) || (canMoveLeft()) || (canMoveRight()));
     }
 
-    public boolean canMoveUp() {
-        /**
-         * This function checks if the player can move up.
-         * 
-         * @return boolean
-         */
-
-        return ((posY > 0) && (map.getMatrix()[posY - 1][posX] == 'a'));  // if upper square is 'a' (available) AND not a wall
-    }
-
-    public boolean canMoveLeft() {
-        /**
-         * This function checks if the player can move Left.
-         * 
-         * @return boolean
-         */
-
-        return ((posX > 0) && (map.getMatrix()[posY][posX - 1] == 'a')); // if left square is 'a' (available) AND not a wall
-    }
-
-    public boolean canMoveDown() {
-        /**
-         * This function checks if the player can move Down.
-         * 
-         * @return boolean
-         */
-
-        return ((posY < 9) && (map.getMatrix()[posY + 1][posX] == 'a')); // if down square is 'a' (available) AND not a wall
-    }
-
-    public boolean canMoveRight() {
-        /**
-         * This function checks if the player can move Right.
-         * 
-         * @return boolean
-         */
-
-        return ((posX < 10) && (map.getMatrix()[posY][posX + 1] == 'a'));  // if right square is 'a' (available) AND not a wall
-    }
-
-    public void moveUp() {
+    void moveUp() {
         /**
          * This function moves the player up in the map and in the variables.
          * 
@@ -79,7 +97,7 @@ public class Player {
         posY -= 1;
     }
 
-    public void moveLeft() {
+    void moveLeft() {
         /**
          * This function moves the player left in the map and in the variables.
          * 
@@ -91,7 +109,7 @@ public class Player {
         posX -= 1;
     }
 
-    public void moveDown() {
+    void moveDown() {
         /**
          * This function moves the player down in the map and in the variables.
          * 
@@ -103,7 +121,7 @@ public class Player {
         posY += 1;
     }
 
-    public void moveRight() {
+    void moveRight() {
         /**
          * This function moves the player right in the map and in the variables.
          * 
@@ -115,7 +133,7 @@ public class Player {
         posX += 1;
     }
 
-    public void move(char direction) {
+    void move(char direction) {
         /**
          * This function moves the player, changes his variables and changes the map.
          * 
@@ -132,7 +150,7 @@ public class Player {
 
                 break;
             case 'q': // if the input is LEFT (Q key)
-                if (canMoveLeft()) { 
+                if (canMoveLeft()) {
                     moveLeft();
                 } else {
                     System.out.println("You can't go there!");
@@ -157,44 +175,33 @@ public class Player {
         }
     }
 
-    public char getSymbol() {
-        return symbol;
-    }
+    public void getMovement() {
+        /*
+         * This function takes and manages player movement inputs.
+         * 
+         * @param player : of type Player
+         */
 
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
+        String direction;
 
-    public void setPosX(int posX) {
-        this.posX = posX;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
-
-    public void setPos(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public String getPseudo() {
-        return pseudo;
-    }
-
-    public int getPosX() {
-        return posX;
-    }
-
-    public int getPosY() {
-        return posY;
+        while (true) {
+            direction = Cli.sc.nextLine();
+            if ((direction.equals("z")) || (direction.equals("Z"))) {
+                move('z');
+                break;
+            } else if ((direction.equals("q")) || (direction.equals("Q"))) {
+                move('q');
+                break;
+            } else if ((direction.equals("s")) || (direction.equals("S"))) {
+                move('s');
+                break;
+            } else if ((direction.equals("d")) || (direction.equals("D"))) {
+                move('d');
+                break;
+            } else {
+                System.out.println(map);
+                System.out.println("Please enter Z, Q, S or D");
+            }
+        }
     }
 }
