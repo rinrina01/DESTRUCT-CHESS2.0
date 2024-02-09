@@ -20,28 +20,28 @@ public class Gamebase {
          * This function creates and adds a player with given parameters to alivePlayers
          * and to the map.
          * 
-         * @param posX   : row where is located the player
-         * @param posY   : column where is located the player
-         * @param symbol : the character to recognize the player
-         * @param matrix : the map
+         * @param posX   : row where the player is located
+         * @param posY   : column where the player is located
+         * @param symbol : character representing each player
+         * @param matrix : game map
          */
         String userInput;
-        boolean alreadyChosen;
+        boolean alreadyChosen;  // username already chosen
         do {
             alreadyChosen = false;
             System.out.println("Enter the name of " + symbol);
             userInput = Cli.sc.nextLine();
 
             for (Player player : alivePlayers) {
-                if (player.getPseudo().equals(userInput)) {
+                if (player.getPseudo().equals(userInput)) {  // if already registered player username == entered username
                     alreadyChosen = true;
                     break;
                 }
             }
-        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);
+        } while ((userInput.length() < 2) || (userInput.length() >= 10) || alreadyChosen);  // username is unique & 2 to 10 characters
 
-        alivePlayers.add(new Player(userInput, posX, posY, symbol, map));
-        matrix[posY][posX] = symbol;
+        alivePlayers.add(new Player(userInput, posX, posY, symbol, map));  // player can join current round
+        matrix[posY][posX] = symbol; // place player on map
     }
 
     static void add2Players() {
@@ -97,8 +97,8 @@ public class Gamebase {
 
     static void addPlayers(int playerCount) {
         /**
-         * This function uses the addPlayers functions depending on playerCount and then
-         * add all alivePlayers to AllPlayers.
+         * This function uses the addPlayers functions depending on playerCount and
+         * adds all alivePlayers to AllPlayers.
          * 
          * @param playerCount : number of players previously selected by the user
          */
@@ -123,7 +123,7 @@ public class Gamebase {
 
     static void destroySquare(Map map) {
         /**
-         * This function asks player to enter a square to destroy it.
+         * This function manages square destruction.
          * 
          * @param map : the map
          */
@@ -135,20 +135,19 @@ public class Gamebase {
 
         do { // ask for column and row until player enters a free square
             do { // ask column until input is valid
-                column = 0;
                 System.out.println("Enter the column [A - K]");
                 columnInput = Cli.sc.nextLine();
 
                 if (columnInput.length() == 1) {
                     short asciiValue = (short) (columnInput.charAt(0)); // convert char to ascii value
-                    if (asciiValue >= 97) { // if character is a uppercase letter
+                    if (asciiValue >= 97) { // if character is an uppercase letter
                         column = asciiValue - 97; // set as the letter's number in the alphabet
-                        if ((column >= 0) && (column <= 10)) { // check if column number is valid
+                        if (column <= 10) { // check if column number is valid
                             break;
                         }
                     } else if (asciiValue >= 65) { // if character is a lowercase letter
                         column = asciiValue - 65; // set as the letter's number in the alphabet
-                        if ((column >= 0) && (column <= 10)) {
+                        if (column <= 10) {
                             break;
                         }
                     }
@@ -169,7 +168,7 @@ public class Gamebase {
             } while (true);
 
             if (matrix[row][column] == 'a') { // if square is free
-                System.out.println("Destructed square : " + columnInput + String.valueOf(row));
+                System.out.println("Destructed square : " + columnInput + row);
                 matrix[row][column] = 'd'; // set square as destroyed
                 System.out.println(map);
                 break;
@@ -181,7 +180,7 @@ public class Gamebase {
 
     public static void initGame() {
         /**
-         * This function intitalizes all game related parameters such as the number of
+         * This function initializes all game related parameters such as the number of
          * players and their position in the map.
          * It then launches the first round of the game.
          */
@@ -204,8 +203,7 @@ public class Gamebase {
         } while (true);
 
         addPlayers(userInput); // add players to alivePlayers and in the map
-        playRound(new Random().nextInt(alivePlayers.size())); // index of the randomly chosen starting player & start
-                                                              // round
+        playRound(new Random().nextInt(alivePlayers.size())); // randomly chosen players starts playing this round
     }
 
     static void playRound(int indexStartingPlayer) {
@@ -220,9 +218,11 @@ public class Gamebase {
         for (int i = 0; i < alivePlayers.size(); i++) {
             System.out.println(map);
 
-            int index = (indexStartingPlayer + i) % alivePlayers.size();
-            System.out.println("Turn of " + alivePlayers.get(index).getPseudo());
-            alivePlayers.get(index).getMovement(); // ask player to move
+            Player playingPlayer = alivePlayers.get((indexStartingPlayer + i) % alivePlayers.size());
+            char playerSymbol = playingPlayer.getSymbol();
+            System.out.println("Turn of " + playingPlayer.getPseudo() +
+                    " (" + "\u001B[" + (playerSymbol - 'p' + 31) + 'm' + playerSymbol + "\u001B[0m" + ")" );
+            playingPlayer.getMovement(); // ask player to move
 
             System.out.println(map);
 

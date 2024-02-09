@@ -9,6 +9,7 @@ public class Rules {
         /**
          * This function displays the rules.
          **/
+
         System.out.print("╔═══════════════════════════════════════════════════╗\n" +
                 "║         Rules                                     ║\n" +
                 "╠═══════════════════════════════════════════════════╣\n" +
@@ -41,6 +42,7 @@ public class Rules {
         /**
          * This function displays the rules and gets player's input to play or go back to menu.
          **/
+
         if (openedTimes > 20) { // easter egg
             System.out.println("You're too dumb to play the game, bye");
             System.exit(0);
