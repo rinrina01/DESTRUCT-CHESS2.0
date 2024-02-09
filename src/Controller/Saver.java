@@ -45,14 +45,14 @@ public class Saver {
                  * stored score and then remove him from scoresMap
                  */
                 if (scoresMap.containsKey(pseudo)) {
-                    writer.write(pseudo + ':' + (scoresMap.get(pseudo) + player.getScore()));
+                    writer.write(pseudo + ':' + (scoresMap.get(pseudo) + player.getScore()) + '\n');
                     scoresMap.remove(pseudo);
                 } else {
-                    writer.write(pseudo + ':' + player.getScore()); // save the players' score
+                    writer.write(pseudo + ':' + player.getScore() + '\n'); // save the players' score
                 }
             }
             for (Map.Entry<String, Integer> entry : scoresMap.entrySet()) {
-                writer.write(entry.getKey() + ':' + entry.getValue()); // rewrite stored scores
+                writer.write(entry.getKey() + ':' + entry.getValue() + '\n'); // rewrite stored scores
             }
             writer.close();
         } else {
@@ -62,7 +62,7 @@ public class Saver {
             FileWriter writer = new FileWriter(saveFile);
 
             for (Player player : allPlayers) {
-                writer.write(player.getPseudo() + ':' + player.getScore()); // save the players' score
+                writer.write(player.getPseudo() + ':' + player.getScore() + '\n'); // save the players' score
             }
             writer.close();
         }
@@ -75,18 +75,18 @@ public class Saver {
          * @return Map<String, Integer> : the String is the pseudo and Integer the score
          */
 
-        if (!fileExists("src/Save/scores.txt")) {
-            File saveFile = new File("src/Save/scores.txt");
+        if (!fileExists("src/Save/scores.txt")) { // if scores save file doesn't exist
+            File saveFile = new File("src/Save/scores.txt"); // create it
             saveFile.createNewFile(); // create save file
         }
 
         Scanner reader = new Scanner(new File("src/Save/scores.txt"));
-        Map<String, Integer> scores = new HashMap<>();
+        Map<String, Integer> scores = new HashMap<>(); // map used to store the content of scores.txt
         String[] line;
 
         while (reader.hasNextLine()) {
             line = reader.nextLine().split(":");
-            scores.put(line[0], Integer.valueOf(line[1]));
+            scores.put(line[0], Integer.valueOf(line[1])); // add key, yalues = pseudo, score
         }
         reader.close();
 
