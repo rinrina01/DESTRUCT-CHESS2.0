@@ -45,25 +45,24 @@ public class Saver {
                  * stored score and then remove him from scoresMap
                  */
                 if (scoresMap.containsKey(pseudo)) {
-                    writer.write(pseudo + ':' + (scoresMap.get(pseudo) + player.getScore()));
+                    writer.write(pseudo + ':' + (scoresMap.get(pseudo) + player.getScore()) + '\n');
                     scoresMap.remove(pseudo);
                 } else {
-                    writer.write(pseudo + ':' + player.getScore()); // save the players' score
+                    writer.write(pseudo + ':' + player.getScore() + '\n'); // save the players' score
                 }
             }
             for (Map.Entry<String, Integer> entry : scoresMap.entrySet()) {
-                writer.write(entry.getKey() + ':' + entry.getValue()); // rewrite stored scores
+                writer.write(entry.getKey() + ':' + entry.getValue() + '\n'); // rewrite stored scores
             }
             writer.close();
         } else {
             File saveFile = new File("src/Save/" + filename);
             saveFile.createNewFile(); // create save file
-            saveFile.setReadOnly();
 
             FileWriter writer = new FileWriter(saveFile);
 
             for (Player player : allPlayers) {
-                writer.write(player.getPseudo() + ':' + player.getScore()); // save the players' score
+                writer.write(player.getPseudo() + ':' + player.getScore() + '\n'); // save the players' score
             }
             writer.close();
         }
@@ -79,7 +78,6 @@ public class Saver {
         if (!fileExists("src/Save/scores.txt")) { // if scores save file doesn't exist
             File saveFile = new File("src/Save/scores.txt"); // create it
             saveFile.createNewFile(); // create save file
-            saveFile.setReadOnly();
         }
 
         Scanner reader = new Scanner(new File("src/Save/scores.txt"));

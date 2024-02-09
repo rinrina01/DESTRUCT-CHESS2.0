@@ -28,8 +28,8 @@ public class Map {
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' } };
         
-        int columnBomb = 4;//(int)(Math.random() * 11);
-        int rowBomb = 6; //(int)(Math.random() * 10);
+        int columnBomb = (int)(Math.random() * 11);
+        int rowBomb = (int)(Math.random() * 10);
         matrix[rowBomb][columnBomb] = 'b';
     
 
