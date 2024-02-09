@@ -107,7 +107,7 @@ public class Cli {
             System.out.println("║ \u001B[90m" + i + ".\u001B[0m " + pseudo + " : "
                     + (score >= 0 ? "\u001B[32m" : "\u001B[31m") + score + "\u001B[0m"
                     + String.format(
-                            "%" + (43 - pseudo.length() - (int) (Math.log10(Math.abs(score)))
+                            "%" + (43 - pseudo.length() - (int) (Math.log10(Math.abs(score))) // adjusting score table accordingly to score integer length
                                     - (int) (Math.log10(i)) - (score >= 0 ? 0 : 1)) + "s",
                             "")
                     + '║');
@@ -125,6 +125,13 @@ public class Cli {
     }
 
     private static void scoresDisplayInput(ArrayList<String> pseudos, Map<String, Integer> scores, int openedTimes) {
+        /**
+         * This function takes the player's input for score table sorting order, or quitting scores.
+         *
+         * @param pseudos : contains all registered player usernames
+         * @param scores : contains all registered player scores
+         * @param openedTimes : menu opening count
+         */
         displayScores(pseudos, scores);
 
         try { // choice of the sorting algorithm

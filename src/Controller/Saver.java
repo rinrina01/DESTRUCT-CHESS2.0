@@ -58,6 +58,7 @@ public class Saver {
         } else {
             File saveFile = new File("src/Save/" + filename);
             saveFile.createNewFile(); // create save file
+            saveFile.setReadOnly();
 
             FileWriter writer = new FileWriter(saveFile);
 
@@ -75,18 +76,19 @@ public class Saver {
          * @return Map<String, Integer> : the String is the pseudo and Integer the score
          */
 
-        if (!fileExists("src/Save/scores.txt")) {
-            File saveFile = new File("src/Save/scores.txt");
+        if (!fileExists("src/Save/scores.txt")) { // if scores save file doesn't exist
+            File saveFile = new File("src/Save/scores.txt"); // create it
             saveFile.createNewFile(); // create save file
+            saveFile.setReadOnly();
         }
 
         Scanner reader = new Scanner(new File("src/Save/scores.txt"));
-        Map<String, Integer> scores = new HashMap<>();
+        Map<String, Integer> scores = new HashMap<>(); // map used to store the content of scores.txt
         String[] line;
 
         while (reader.hasNextLine()) {
             line = reader.nextLine().split(":");
-            scores.put(line[0], Integer.valueOf(line[1]));
+            scores.put(line[0], Integer.valueOf(line[1])); // add key, yalues = pseudo, score
         }
         reader.close();
 
