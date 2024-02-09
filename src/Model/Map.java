@@ -10,6 +10,7 @@ public class Map {
         /*
          * a => available
          * d => destroyed
+         * b => bomb
          * other => players
          */
     }
@@ -27,8 +28,8 @@ public class Map {
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' },
                 { 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a' } };
         
-        int columnBomb = (int)(Math.random() * 11);
-        int rowBomb = (int)(Math.random() * 10);
+        int columnBomb = 4;//(int)(Math.random() * 11);
+        int rowBomb = 6; //(int)(Math.random() * 10);
         matrix[rowBomb][columnBomb] = 'b';
     
 
@@ -56,46 +57,30 @@ public class Map {
          * @return String : text containing all the information in the grid
          */
 
-        String displayed = "";
+        StringBuilder displayed = new StringBuilder();
         char[][] matrix = getMatrix();
-        displayed += "         ═════════════════════════════════════════════\n";
+        displayed.append("         ═════════════════════════════════════════════\n");
         for (int i = 0; i < matrix.length; i++) { // loops every rows
-            displayed += "Row:   " + i + ' ';
-            for (int j = 0; j < matrix[i].length; j++) { // loops every columns
-                if (matrix[i][j] != 'a') {
-
-                    String displayBlock = ""; // string containing the color and content of the box
-                    String displayColorReset = "\u001B[0m";
-                    switch (matrix[i][j]) { // manages display colors according to the box
-                        case 'p': // Player 1
-                            displayBlock = "\u001B[34mp";
-                            break;
-                        case 'q': // Player 2
-                            displayBlock = "\u001B[31mq";
-                            break;
-                        case 'r': // Player 3
-                            displayBlock = "\u001B[33mr";
-                            break;
-                        case 's': // Player 4
-                            displayBlock = "\u001B[32ms";
-                            break;
-                        case 'b': // Bomb block
-                            displayBlock = "\033[0;35mB";
-                            break;
-                        case 'd': // Destructed block
-                            displayBlock = "\033[0;30mX";
-                            break;
-                    }
-                    displayed += "║ " + displayBlock + displayColorReset + ' ';
-
-
+            displayed.append("Row:   ").append(i).append(' ');
+            for (int j = 0; j < matrix[i].length; j++) { // loops every column
+                char symbol = matrix[i][j];
+                if (symbol != 'a') {
+                    // string containing the color and content of the box
+                    String coloredSymbol = switch (symbol) { // manages display colors according to the box
+                        case 'b' -> // Bomb block
+                                "\u001B[35mB";
+                        case 'd' -> // Destructed block
+                                "\u001B[90mX";
+                        default -> "\u001B[" + (symbol - 'p' + 31) + 'm' + symbol;
+                    } + "\u001B[0m";
+                    displayed.append("║ ").append(coloredSymbol).append(' ');
                 } else {
-                    displayed += "║   ";
+                    displayed.append("║   ");
                 }
             }
-            displayed += "║\n         ═════════════════════════════════════════════\n";
+            displayed.append("║\n         ═════════════════════════════════════════════\n");
         }
-        displayed += "Column:    A   B   C   D   E   F   G   H   I   J   K\n";
-        return displayed;
+        displayed.append("Column:    A   B   C   D   E   F   G   H   I   J   K\n");
+        return displayed.toString();
     }
 }

@@ -45,10 +45,10 @@ public class Saver {
                  * stored score and then remove him from scoresMap
                  */
                 if (scoresMap.containsKey(pseudo)) {
-                    writer.write(pseudo + ':' + String.valueOf(scoresMap.get(pseudo) + player.getScore()));
+                    writer.write(pseudo + ':' + (scoresMap.get(pseudo) + player.getScore()));
                     scoresMap.remove(pseudo);
                 } else {
-                    writer.write(pseudo + ':' + String.valueOf(player.getScore())); // save the players' score
+                    writer.write(pseudo + ':' + player.getScore()); // save the players' score
                 }
             }
             for (Map.Entry<String, Integer> entry : scoresMap.entrySet()) {
@@ -62,7 +62,7 @@ public class Saver {
             FileWriter writer = new FileWriter(saveFile);
 
             for (Player player : allPlayers) {
-                writer.write(player.getPseudo() + ':' + String.valueOf(player.getScore())); // save the players' score
+                writer.write(player.getPseudo() + ':' + player.getScore()); // save the players' score
             }
             writer.close();
         }
@@ -70,10 +70,16 @@ public class Saver {
 
     public static Map<String, Integer> readScores() throws IOException {
         /**
-         * This function reads the save file and returns players' score
+         * This function reads the save file and returns players' score.
          * 
          * @return Map<String, Integer> : the String is the pseudo and Integer the score
          */
+
+        if (!fileExists("src/Save/scores.txt")) {
+            File saveFile = new File("src/Save/scores.txt");
+            saveFile.createNewFile(); // create save file
+        }
+
         Scanner reader = new Scanner(new File("src/Save/scores.txt"));
         Map<String, Integer> scores = new HashMap<>();
         String[] line;
